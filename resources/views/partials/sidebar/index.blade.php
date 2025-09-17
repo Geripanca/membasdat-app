@@ -61,12 +61,6 @@
     <div>Pengguna</div>
   </a>
 </li>
-<li class="menu-item {{ Request::is('admin/ubah-teks*') ? 'active' : '' }}">
-  <a class="menu-link cursor-pointer" onclick="window.location.href='/admin/ubah-teks'">
-    <i class="menu-icon tf-icons bx bx-transfer-alt"></i>
-    <div>Teks to Aksara</div>
-  </a>
-</li>
 <li class="menu-item {{ Request::is('admin/pengaturan') ? 'active' : '' }}">
   <a class="menu-link cursor-pointer" onclick="window.location.href='/admin/pengaturan'">
     <i class="menu-icon tf-icons bx bx-cog"></i>
