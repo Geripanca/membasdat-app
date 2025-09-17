@@ -143,18 +143,18 @@
                   <div class="col-md-10 heading-section text-center ftco-animate">
                         <h1 class="big big-2">Menu Aplikasi</h1>
                         <h2 class="mb-4">Menu Aplikasi</h2>
-                        <p>Terdapat 5 menu yang bisa digunakan pengguna. Diantaranya sebagai berikut.</p>
+                        <p>Terdapat 6 menu yang bisa digunakan pengguna. Diantaranya sebagai berikut.</p>
                   </div>
             </div>
             <div class="row">
                   <div class="col-md-6">
                         <div class="resume-wrap ftco-animate height-300">
                               <span class="date">Materi</span>
-                              <p class="mt-4">Pengguna dapat melihat materi pembelajaran aksara jawa berupa macam-macam huruf aksara jawa, sandhangan, dan juga pasangannya serta pengguna bisa mendengarkan audio pelafalannya.</p>
+                              <p class="mt-4">Pengguna dapat melihat materi pembelajaran Entity Relationship Diagram (ERD) berupa Entitas, Relasi dan Kardinalitas.</p>
                         </div>
                         <div class="resume-wrap ftco-animate height-300">
                               <span class="date">Quiz</span>
-                              <p class="mt-4">Dalam menu 'Quiz' terdapat soal-soal yang bisa dikerjakan untuk melatih pemahaman tentang aksara jawa. Quiz ini bisa dikerjakan secara berulang-ulang.</p>
+                              <p class="mt-4">Dalam menu 'Quiz' terdapat soal-soal yang bisa dikerjakan untuk melatih pemahaman tentang Entity Relationship Diagram (ERD). Quiz ini bisa dikerjakan secara berulang-ulang.</p>
                         </div>
                         <div class="resume-wrap ftco-animate height-300">
                               <span class="date">Pengaturan</span>
