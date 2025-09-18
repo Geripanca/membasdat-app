@@ -271,29 +271,30 @@
 <input type="url"
        id="videoEdit"
        name="videoEdit"
-       value="{{ old('videoEdit', $materi->videoEdit) }}"
+       value="{{ old('videoEdit') }}"
        class="form-control @error('videoEdit') is-invalid @enderror"
        placeholder="https://www.youtube.com/embed/xxxx">
-    @error('videoEdit')
+      @error('videoEdit')
       <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-  </div>
-</div>
+      @enderror
+      </div>
+    </div>
 
-<div class="row">
-  <div class="col">
-    <label for="categoryEdit" class="form-label required-label">Kategori</label>
-    <select class="form-select @error('categoryEdit') is-invalid @enderror"
-        name="categoryEdit" id="categoryEdit" required>
-    <option value="" disabled>Pilih Kategori</option>
-    <option value="file" @if(old('categoryEdit', $materi->category) == 'file') selected @endif>File</option>
-    <option value="video" @if(old('categoryEdit', $materi->category) == 'video') selected @endif>Video</option>
-</select>
-    @error('categoryEdit')
-    <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-  </div>
-</div>
+    <div class="row">
+      <div class="col">
+        <label for="categoryEdit" class="form-label required-label">Kategori</label>
+          <select class="form-select @error('categoryEdit') is-invalid @enderror"
+            name="categoryEdit" id="categoryEdit" required>
+            <option value="" disabled selected>Pilih Kategori</option>
+            <option value="file">File</option>
+            <option value="video">Video</option>
+          </select>
+        @error('categoryEdit')
+        <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+
+      </div>
+    </div>
 
         </div>
         <div class="modal-footer">
