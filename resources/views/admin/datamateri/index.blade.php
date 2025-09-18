@@ -72,44 +72,66 @@
               <thead class="table-dark">
                 <tr>
                   <th class="text-white">No</th>
-                  <th class="text-white">Gambar</th>
-                  <th class="text-white text-center">Nama Aksara</th>
+                  <th class="text-white text-center">Judul Materi</th>
                   <th class="text-white text-center">Kategori</th>
-                  <th class="text-white text-center">Audio</th>
+                  <th class="text-white text-center">File / Video</th>
                   <th class="text-white">Tanggal Pembuatan</th>
                   <th class="text-white">Tanggal Update</th>
                   <th class="text-white text-center">Aksi</th>
                 </tr>
               </thead>
+
               <tbody class="table-border-bottom-0">
-                @foreach($materis as $index => $materi)
+              @foreach($materis as $index => $materi)
                 <tr>
                   <td>{{ $materis->firstItem() + $index }}</td>
-                  <td><img src="@if(Storage::disk('public')->exists($materi->image)) {{ asset('storage/'. $materi->image) }} @else {{ asset('assets/img/'. $materi->image) }} @endif" alt="Materi Image - {{ $materi->title }}" class="materiImage" data-url-img="@if(Storage::disk('public')->exists($materi->image)) {{ asset('storage/'. $materi->image) }} @else {{ asset('assets/img/'. $materi->image) }} @endif" data-title-materi="{{ $materi->title }}" @if($materi->category == 'huruf') style="width: 40px;" @elseif($materi->category == 'pasangan') style="width: 35px;" @else style="width: 23px;" @endif></td>
                   <td class="text-capitalize text-center">{{ $materi->title }}</td>
-                  <td class="text-center">@if($materi->category == 'huruf')<span class="badge bg-label-success fw-bold">{{ 'Huruf' }}</span>@elseif ($materi->category == 'pasangan')<span class="badge bg-label-info fw-bold">{{ 'Pasangan'}}</span>@else<span class="badge bg-label-warning fw-bold">{{ 'Sandhangan'}}</span>@endif</td>
-                  <td>@if($materi->audio)<audio controls>
-                      <source src="@if(Storage::disk('public')->exists($materi->audio)) {{ asset('storage/'. $materi->audio) }} @else {{ asset('assets/'. $materi->audio) }} @endif" type="audio/mpeg">
-                    </audio>@else Tidak Ada Audio @endif
+                  <td class="text-center">
+                  @if($materi->category == 'file')
+                    <span class="badge bg-label-success fw-bold">File</span>
+                  @else
+                    <span class="badge bg-label-info fw-bold">Video</span>
+                  @endif
+                  </td>
+                  <td class="text-center">
+                  @if($materi->category == 'file' && $materi->file)
+                    <a href="{{ asset('storage/' . $materi->file) }}" target="_blank" class="btn btn-sm btn-primary">
+                    Download
+                    </a>
+                  @elseif($materi->category == 'video' && $materi->video)
+                    <iframe width="200" height="113" src="{{ $materi->video }}" frameborder="0" allowfullscreen></iframe>
+                  @else
+                    <span class="text-muted">Tidak ada data</span>
+                  @endif
                   </td>
                   <td>{{ $materi->created_at->locale('id')->isoFormat('D MMMM YYYY | H:mm') }}</td>
                   <td>{{ $materi->updated_at->locale('id')->isoFormat('D MMMM YYYY | H:mm') }}</td>
                   <td class="text-center">
-                    <button type="button" class="btn btn-icon btn-primary btn-sm buttonEditMateri" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="auto" title="Edit Materi" data-code-materi="{{ encrypt($materi->id) }}" data-title-materi="{{ $materi->title }}" data-category-materi="{{ $materi->category }}">
-                      <span class="tf-icons bx bx-edit" style="font-size: 15px;"></span>
+                    <button type="button" class="btn btn-icon btn-primary btn-sm buttonEditMateri"
+                    data-bs-toggle="tooltip"
+                    title="Edit Materi"
+                    data-code-materi="{{ encrypt($materi->id) }}"
+                    data-title-materi="{{ $materi->title }}"
+                    data-category-materi="{{ $materi->category }}">
+                    <span class="tf-icons bx bx-edit" style="font-size: 15px;"></span>
                     </button>
-                    <button type="button" class="btn btn-icon btn-danger btn-sm buttonDeleteMateri" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="auto" title="Hapus Materi" data-code-materi="{{ encrypt($materi->id) }}" data-title-materi="{{ $materi->title }}">
-                      <span class="tf-icons bx bx-trash" style="font-size: 14px;"></span>
+                    <button type="button" class="btn btn-icon btn-danger btn-sm buttonDeleteMateri"
+                    data-bs-toggle="tooltip"
+                    title="Hapus Materi"
+                    data-code-materi="{{ encrypt($materi->id) }}"
+                    data-title-materi="{{ $materi->title }}">
+                    <span class="tf-icons bx bx-trash" style="font-size: 14px;"></span>
                     </button>
                   </td>
                 </tr>
-                @endforeach
-                @if($materis->isEmpty())
-                <tr>
-                  <td colspan="100" class="text-center">Data tidak ditemukan!</td>
-                </tr>
-                @endif
-              </tbody>
+              @endforeach
+  @if($materis->isEmpty())
+  <tr>
+    <td colspan="100" class="text-center">Data tidak ditemukan!</td>
+  </tr>
+  @endif
+</tbody>
+
             </table>
           </div>
         </ul>
@@ -134,56 +156,50 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col mb-3">
-              <label for="title" class="form-label required-label">Nama Aksara</label>
-              <input type="text" id="title" name="title" value="{{ old('title') }}" class="form-control @error('title') is-invalid @enderror" placeholder="Masukkan judul Materi" autocomplete="off" required>
-              @error('title')
-              <div class="invalid-feedback" style="margin-bottom: -3px;">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
+          <div class="col mb-3">
+          <label for="title" class="form-label required-label">Judul Materi</label>
+          <input type="text" id="title" name="title" value="{{ old('title') }}"
+          class="form-control @error('title') is-invalid @enderror"
+          placeholder="Masukkan Judul Materi" autocomplete="off" required>
+          @error('title')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
           </div>
-          <div class="row">
-            <div class="col mb-3">
-              <label for="image" class="form-label required-label">Upload Gambar</label>
-              <input type="file" id="image" name="image" class="form-control @error('image') is-invalid @enderror">
-              @error('image')
-              <div class="invalid-feedback" style="margin-bottom: -3px;">
-                {{ $message }}
-              </div>
-              @enderror
-              <div class="form-text @error('image') d-none @enderror">Ukuran maks 500 KB dengan rasio 1:1. Format: JPG, PNG, JPEG.</div>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label for="file" class="form-label">Upload File</label>
+            <input type="file" id="file" name="file" class="form-control @error('file') is-invalid @enderror">
+            @error('file')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+            <div class="form-text">Maks 5MB. Format: PDF, DOC, DOCX, ODT, ODF</div>
           </div>
-          <div class="row">
-            <div class="col mb-3">
-              <label for="audio" class="form-label">Upload Audio</label>
-              <input type="file" id="audio" name="audio" class="form-control @error('audio') is-invalid @enderror">
-              @error('audio')
-              <div class="invalid-feedback" style="margin-bottom: -3px;">
-                {{ $message }}
-              </div>
-              @enderror
-              <div class="form-text @error('audio') d-none @enderror">Ukuran audio maks 250 KB</div>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label for="video" class="form-label">Link Video</label>
+            <input type="url" id="video" name="video" value="{{ old('video') }}" class="form-control @error('video') is-invalid @enderror" placeholder="https://www.youtube.com/embed/...">
+            @error('video')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+            <div class="form-text">Masukkan link embed YouTube</div>
           </div>
+        </div>
           <div class="row">
             <div class="col">
-              <label for="category" class="form-label required-label">Kategori</label>
-              <select class="form-select @error('category') is-invalid @enderror" name="category" id="category" style="cursor: pointer;">
-                <option value="" selected disabled>Pilih Kategori</option>
-                <option @if(old('category')=='huruf' ) selected @endif value="huruf">Huruf Aksara</option>
-                <option @if(old('category')=='pasangan' ) selected @endif value="pasangan">Pasangan</option>
-                <option @if(old('category')=='sandhangan' ) selected @endif value="sandhangan">Sandhangan</option>
-              </select>
-              @error('category')
-              <div class="invalid-feedback" style="margin-bottom: -3px;">
-                {{ $message }}
-              </div>
-              @enderror
+            <label for="category" class="form-label required-label">Kategori</label>
+            <select class="form-select @error('category') is-invalid @enderror" name="category" id="category" required>
+              <option value="" disabled selected>Pilih Kategori</option>
+              <option value="file" @if(old('category')=='file') selected @endif>File</option>
+              <option value="video" @if(old('category')=='video') selected @endif>Video</option>
+            </select>
+            @error('category')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
             </div>
           </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-danger cancelModalAddMateri" data-bs-dismiss="modal"><i class='bx bx-share fs-6' style="margin-bottom: 3px;"></i>&nbsp;Batal</button>
@@ -208,55 +224,47 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col mb-3">
-              <label for="titleEdit" class="form-label required-label">Nama Aksara</label>
-              <input type="text" id="titleEdit" name="titleEdit" value="{{ old('titleEdit') }}" class="form-control @error('titleEdit') is-invalid @enderror" autocomplete="off" placeholder="Masukkan Nama Materi" required>
-              @error('titleEdit')
-              <div class="invalid-feedback" style="margin-bottom: -3px;">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
-          </div>
+  <div class="col mb-3">
+    <label for="titleEdit" class="form-label required-label">Judul Materi</label>
+    <input type="text" id="titleEdit" name="titleEdit" value="{{ old('titleEdit') }}"
+      class="form-control @error('titleEdit') is-invalid @enderror"
+      placeholder="Masukkan Judul Materi" autocomplete="off" required>
+    @error('titleEdit')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+  </div>
+</div>
           <div class="row">
-            <div class="col mb-3">
-              <label for="imageEdit" class="form-label">Upload Gambar</label>
-              <input type="file" id="imageEdit" name="imageEdit" class="form-control @error('imageEdit') is-invalid @enderror">
-              @error('imageEdit')
-              <div class="invalid-feedback" style="margin-bottom: -3px;">
-                {{ $message }}
-              </div>
-              @enderror
-              <div class="form-text @error('imageEdit') d-none @enderror">Ukuran maks 500 KB dengan rasio 1:1. Format: JPG, PNG, JPEG.</div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col mb-3">
-              <label for="audioEdit" class="form-label">Upload Audio</label>
-              <input type="file" id="audioEdit" name="audioEdit" class="form-control @error('audioEdit') is-invalid @enderror">
-              @error('audioEdit')
-              <div class="invalid-feedback" style="margin-bottom: -3px;">
-                {{ $message }}
-              </div>
-              @enderror
-              <div class="form-text @error('audioEdit') d-none @enderror">Ukuran audio maks 250 KB</div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <label for="categoryEdit" class="form-label required-label">Kategori</label>
-              <select class="form-select @error('categoryEdit') is-invalid @enderror" name="categoryEdit" id="categoryEdit" style="cursor: pointer;">
-                <option id="huruf" @if(old('categoryEdit')=='huruf' ) selected @endif value="huruf">Huruf Aksara</option>
-                <option id="pasangan" @if(old('categoryEdit')=='pasangan' ) selected @endif value="pasangan">Pasangan</option>
-                <option id="sandhangan" @if(old('categoryEdit')=='sandhangan' ) selected @endif value="sandhangan">Sandhangan</option>
-              </select>
-              @error('categoryEdit')
-              <div class="invalid-feedback" style="margin-bottom: -3px;">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
-          </div>
+  <div class="col mb-3">
+    <label for="fileEdit" class="form-label">Upload File</label>
+    <input type="file" id="fileEdit" name="fileEdit" class="form-control @error('fileEdit') is-invalid @enderror">
+    @error('fileEdit')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+  </div>
+</div>
+<div class="row">
+  <div class="col mb-3">
+    <label for="videoEdit" class="form-label">Link Video</label>
+    <input type="url" id="videoEdit" name="videoEdit" value="{{ old('videoEdit') }}" class="form-control @error('videoEdit') is-invalid @enderror">
+    @error('videoEdit')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <label for="categoryEdit" class="form-label required-label">Kategori</label>
+    <select class="form-select @error('categoryEdit') is-invalid @enderror" name="categoryEdit" id="categoryEdit" required>
+      <option value="file" @if(old('categoryEdit')=='file') selected @endif>File</option>
+      <option value="video" @if(old('categoryEdit')=='video') selected @endif>Video</option>
+    </select>
+    @error('categoryEdit')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+  </div>
+</div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-danger cancelModalEditMateri" data-bs-dismiss="modal"><i class='bx bx-share fs-6' style="margin-bottom: 3px;"></i>&nbsp;Batal</button>
