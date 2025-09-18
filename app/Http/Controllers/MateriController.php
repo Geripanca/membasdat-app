@@ -77,17 +77,20 @@ class MateriController extends Controller
         return back()->with('deleteMateriSuccess', 'Materi berhasil dihapus!');
     }
 
-    public function search()
+    public function search(Request $request)
     {
-        if (request('q') === null) {
-            return redirect('/admin/data-materi');
-            exit;
-        }
+        $keyword = $request->q;
 
-        return view('admin.datamateri.search', [
+        $materis = Materi::latest()
+            ->searching($keyword)
+            ->paginate(10);
+
+        return view('admin.datamateri.index', [
             'app' => Application::all(),
             'title' => 'Data Materi',
-            'materis' => Materi::latest()->searching(request('q'))->paginate(10)
+            'materis' => $materis,
+            'search' => $keyword
         ]);
     }
+
 }

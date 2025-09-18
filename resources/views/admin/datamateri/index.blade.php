@@ -58,12 +58,23 @@
           </button>
         </div>
         <div class="justify-content-end">
-          <form action="/admin/data-materi/search">
-            <div class="input-group">
-              <input type="search" class="form-control" name="q" id="search" style="border: 1px solid #d9dee3;" placeholder="Cari Data Materi..." autocomplete="off" />
-            </div>
-          </form>
-        </div>
+  <form action="{{ url('/admin/data-materi/search') }}" method="GET">
+    <div class="input-group">
+      <input 
+        type="search" 
+        class="form-control" 
+        name="q" 
+        id="search" 
+        value="{{ request('q') }}" 
+        style="border: 1px solid #d9dee3;" 
+        placeholder="Cari Data Materi..." 
+        autocomplete="off" 
+      />
+      <button class="btn btn-primary" type="submit">Cari</button>
+    </div>
+  </form>
+</div>
+
       </div>
       <div class="card-body">
         <ul class="p-0 m-0">
