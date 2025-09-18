@@ -242,23 +242,40 @@
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
   </div>
+      {{-- Jika ada file lama, tampilkan link download --}}
+    @if(!empty($materi->file))
+      <p class="mb-1">
+        File saat ini:
+        <a href="{{ asset('storage/' . $materi->file) }}" target="_blank" class="fw-bold text-primary">
+          Lihat / Download
+        </a>
+      </p>
+    @endif
 </div>
 <div class="row">
   <div class="col mb-3">
     <label for="videoEdit" class="form-label">Link Video</label>
-    <input type="url" id="videoEdit" name="videoEdit" value="{{ old('videoEdit') }}" class="form-control @error('videoEdit') is-invalid @enderror">
+<input type="url"
+       id="videoEdit"
+       name="videoEdit"
+       value="{{ old('videoEdit', $materi->videoEdit) }}"
+       class="form-control @error('videoEdit') is-invalid @enderror"
+       placeholder="https://www.youtube.com/embed/xxxx">
     @error('videoEdit')
-    <div class="invalid-feedback">{{ $message }}</div>
+      <div class="invalid-feedback">{{ $message }}</div>
     @enderror
   </div>
 </div>
+
 <div class="row">
   <div class="col">
     <label for="categoryEdit" class="form-label required-label">Kategori</label>
-    <select class="form-select @error('categoryEdit') is-invalid @enderror" name="categoryEdit" id="categoryEdit" required>
-      <option value="file" @if(old('categoryEdit')=='file') selected @endif>File</option>
-      <option value="video" @if(old('categoryEdit')=='video') selected @endif>Video</option>
-    </select>
+    <select class="form-select @error('categoryEdit') is-invalid @enderror"
+        name="categoryEdit" id="categoryEdit" required>
+    <option value="" disabled>Pilih Kategori</option>
+    <option value="file" @if(old('categoryEdit', $materi->category) == 'file') selected @endif>File</option>
+    <option value="video" @if(old('categoryEdit', $materi->category) == 'video') selected @endif>Video</option>
+</select>
     @error('categoryEdit')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
