@@ -99,7 +99,9 @@
                     Download
                     </a>
                   @elseif($materi->category == 'video' && $materi->video)
-                    <iframe width="200" height="113" src="{{ $materi->video }}" frameborder="0" allowfullscreen></iframe>
+                      <a href="{{ $materi->video }}" target="_blank" class="btn btn-sm btn-success">
+                        Kunjungi
+                      </a>
                   @else
                     <span class="text-muted">Tidak ada data</span>
                   @endif
@@ -112,7 +114,8 @@
                     title="Edit Materi"
                     data-code-materi="{{ encrypt($materi->id) }}"
                     data-title-materi="{{ $materi->title }}"
-                    data-category-materi="{{ $materi->category }}">
+                    data-category-materi="{{ $materi->category }}"
+                    data-video-materi="{{ $materi->video }}">
                     <span class="tf-icons bx bx-edit" style="font-size: 15px;"></span>
                     </button>
                     <button type="button" class="btn btn-icon btn-danger btn-sm buttonDeleteMateri"
