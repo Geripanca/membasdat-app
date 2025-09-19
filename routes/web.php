@@ -28,7 +28,12 @@ use App\Models\Thread;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::get('/tools', function () {
+    return view('users.tools.index', [
+        'title' => 'Tools',
+        'app' => Application::all(), // konsisten dengan halaman lain
+    ]);
+})->middleware(['auth']);
 // Homepage
 Route::get('/',  function () {
   return view('home', [
@@ -102,6 +107,10 @@ Route::get('/docs/v1/start', function () {
     'title' => 'Dokumentasi'
   ]);
 });
+
+
+
+
 
 
 // admin

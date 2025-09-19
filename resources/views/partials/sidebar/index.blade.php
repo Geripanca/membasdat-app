@@ -25,8 +25,8 @@
     <div>Quiz</div>
   </a>
 </li>
-<li class="menu-item {{ Request::is('tools/ai*') ? 'active' : '' }}">
-  <a class="menu-link cursor-pointer" onclick="window.location.href=''">
+<li class="menu-item {{ Request::is('tools*') ? 'active' : '' }}">
+  <a class="menu-link cursor-pointer" onclick="window.location.href='/tools'">
     <i class="menu-icon tf-icons bx bx-bot"></i>
     <div>Tools</div>
   </a>
