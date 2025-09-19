@@ -25,6 +25,12 @@
     <div>Quiz</div>
   </a>
 </li>
+<li class="menu-item {{ Request::is('tools/ai*') ? 'active' : '' }}">
+  <a class="menu-link cursor-pointer" onclick="window.location.href=''">
+    <i class="menu-icon tf-icons bx bx-bot"></i>
+    <div>Tools</div>
+  </a>
+</li>
 @endcan
 @can('admin')
 <li class="menu-item {{ Request::is('admin/data-quiz*') ? 'active' : '' }}">
