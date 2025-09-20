@@ -5,6 +5,12 @@
     <div>Dashboard</div>
   </a>
 </li>
+<li class="menu-item {{ Request::is('admin/pertemuan*') ? 'active' : '' }}">
+  <a class="menu-link cursor-pointer" onclick="window.location.href=''">
+    <i class="menu-icon tf-icons bx bx-calendar-event"></i>
+    <div>Pertemuan</div>
+  </a>
+</li>
 <li class="menu-item {{ Request::is('admin/data-materi*') ? 'active' : '' }}">
   <a class="menu-link cursor-pointer" onclick="window.location.href='/admin/data-materi'">
     <i class="menu-icon tf-icons bx bx-book-content"></i>
@@ -73,6 +79,8 @@
     <div>Pengaturan</div>
   </a>
 </li>
+
+
 @endcan
 @can('user')
 <li class="menu-item {{ Request::is('pengaturan') ? 'active' : '' }}">
