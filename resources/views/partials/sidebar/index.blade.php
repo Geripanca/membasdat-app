@@ -5,8 +5,8 @@
     <div>Dashboard</div>
   </a>
 </li>
-<li class="menu-item {{ Request::is('admin/pertemuan*') ? 'active' : '' }}">
-  <a class="menu-link cursor-pointer" onclick="window.location.href=''">
+<li class="menu-item {{ Request::is('datapertemuan*') ? 'active' : '' }}">
+  <a class="menu-link cursor-pointer" onclick="window.location.href='/datapertemuan'">
     <i class="menu-icon tf-icons bx bx-calendar-event"></i>
     <div>Pertemuan</div>
   </a>

@@ -14,6 +14,8 @@ use App\Http\Controllers\AdminPenggunaController;
 use App\Http\Controllers\AdminLaporanController;
 use App\Http\Controllers\DiscussController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\StepMeetingController;
 use App\Models\User;
 use App\Models\Quiz;
 use App\Models\Thread;
@@ -129,6 +131,16 @@ Route::get('/admin/data-materi/delete', function () {
   return back();
 })->middleware('admin');
 Route::get('/admin/data-materi/search', [MateriController::class, 'search'])->middleware('admin');
+
+//admin pertemuan
+Route::middleware(['auth', 'can:admin'])->group(function () {
+    Route::resource('datapertemuan', MeetingController::class);
+    Route::get('meetings/{meeting}/steps/create', [StepMeetingController::class, 'create'])->name('steps.create');
+    Route::post('meetings/{meeting}/steps', [StepMeetingController::class, 'store'])->name('steps.store');
+    Route::get('meetings/{meeting}/steps/{step}/edit', [StepMeetingController::class, 'edit'])->name('steps.edit');
+    Route::put('meetings/{meeting}/steps/{step}', [StepMeetingController::class, 'update'])->name('steps.update');
+    Route::delete('meetings/{meeting}/steps/{step}', [StepMeetingController::class, 'destroy'])->name('steps.destroy');
+});
 
 //admin quiz
 Route::get('/admin/data-quiz', [AdminDataQuizController::class, 'index'])->middleware('admin');

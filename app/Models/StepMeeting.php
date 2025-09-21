@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class StepMeeting extends Model
+{
+    use HasFactory;
+
+    protected $table = 'step_meeting';
+    protected $fillable = ['id_pertemuan', 'judul', 'deskripsi', 'id_materis', 'id_quiz'];
+
+    public function meeting()
+    {
+        return $this->belongsTo(Meeting::class, 'id_pertemuan');
+    }
+
+    public function materi()
+    {
+        return $this->belongsTo(\App\Models\Materi::class, 'id_materis');
+    }
+
+    public function quiz()
+    {
+        return $this->belongsTo(\App\Models\Quiz::class, 'id_quiz');
+    }
+}
