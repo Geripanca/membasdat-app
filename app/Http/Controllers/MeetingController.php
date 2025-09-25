@@ -34,9 +34,9 @@ public function index()
         return redirect()->route('datapertemuan.index')->with('success','Pertemuan berhasil dibuat!');
     }
 
-    public function show(Meeting $dataperteman)
+    public function show(Meeting $datapertemuan)
     {
-        $dataperteman->load('steps'); // langkah-langkah RBL
+        $datapertemuan->load('steps'); // langkah-langkah RBL
         return view('admin.datapertemuan.show', compact('dataperteman'));
     }
 
@@ -56,9 +56,10 @@ public function index()
         return redirect()->route('datapertemuan.index')
                          ->with('success', 'Meeting berhasil diperbarui!');
     }
-    public function destroy(Meeting $dataperteman)
-    {
-        $dataperteman->delete();
-        return redirect()->route('datapertemuan.index')->with('success','Pertemuan berhasil dihapus!');
-    }
+public function destroy(Meeting $datapertemuan)
+{
+    $datapertemuan->delete();
+    return redirect()->route('datapertemuan.index')->with('success','Pertemuan berhasil dihapus!');
+}
+
 }

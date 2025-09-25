@@ -86,13 +86,15 @@
 </button>
 
 
-              <form action="{{ route('datapertemuan.destroy', $meeting->id) }}" method="POST" class="d-inline">
-                @csrf @method('DELETE')
-                <button type="submit" class="btn btn-icon btn-danger btn-sm" 
-                        data-bs-toggle="tooltip" title="Hapus Pertemuan"
-                        onclick="return confirm('Yakin hapus pertemuan ini?')">
-                  <span class="tf-icons bx bx-trash" style="font-size: 14px;"></span>
-                </button>
+<button type="button"
+        class="btn btn-icon btn-danger btn-sm btnDeleteMeeting"
+        data-id="{{ $meeting->id }}"
+        data-judul="{{ $meeting->judul }}"
+        data-url="{{ route('datapertemuan.destroy', $meeting->id) }}"
+        title="Hapus Pertemuan">
+    <span class="tf-icons bx bx-trash" style="font-size: 15px;"></span>
+</button>
+
               </form>
             </td>
           </tr>
@@ -209,6 +211,30 @@
     </form>
   </div>
 </div>
+<!-- Modal Delete Meeting -->
+<div class="modal fade" id="deleteMeetingConfirm" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="POST" id="formDeleteMeeting">
+      @csrf
+      @method('DELETE')
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Konfirmasi Hapus</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="deleteMeetingMessage"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Ya, Hapus!</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 
 @section('script')
 <script src="{{ asset('assets/js/datapertemuan/index.js') }}"></script>

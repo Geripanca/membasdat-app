@@ -13,3 +13,15 @@ $(document).on("click", ".buttonEditMeeting", function () {
 
     $("#formEditModalMeeting").modal("show");
 });
+$(document).on("click", ".btnDeleteMeeting", function() {
+    let id = $(this).data("id");
+    let judul = $(this).data("judul");
+
+    $(".deleteMeetingMessage").text(`Apakah Anda yakin ingin menghapus pertemuan "${judul}"?`);
+
+    // Pakai Blade directive di sini
+    let url = $(this).data("url"); // URL sudah benar
+    $("#formDeleteMeeting").attr("action", url);
+    $("#deleteMeetingConfirm").modal("show");
+});
+
