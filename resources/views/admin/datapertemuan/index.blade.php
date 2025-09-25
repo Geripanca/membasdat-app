@@ -107,6 +107,7 @@
   </div>
 </div>
 @endsection
+<div class="flash-message" data-add-meeting="@if(session()->has('success')) {{ session('success') }} @endif" ></div>
 <!-- Modal Tambah Pertemuan -->
 <div class="modal fade" id="formModalAdminMeeting" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">

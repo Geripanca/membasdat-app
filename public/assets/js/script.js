@@ -325,4 +325,11 @@ $(function () {
     if (errAddNewTopicTitle || errAddNewTopicContent) {
         $("#formModalAddTopic").modal("show");
     }
+
+    //add pertemuan
+    const addMeeting = $(".flash-message").data("add-meeting");
+    if (addMeeting) {
+        setMessage(addMeeting, "success");
+    }
+
 });
