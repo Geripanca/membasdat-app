@@ -73,10 +73,19 @@
                  class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Detail Pertemuan">
                 <span class="tf-icons bx bx-show" style="font-size: 15px;"></span>
               </a>
-              <a href="{{ route('datapertemuan.edit', $meeting->id) }}" 
-                 class="btn btn-icon btn-warning btn-sm" data-bs-toggle="tooltip" title="Edit Pertemuan">
-                <span class="tf-icons bx bx-edit" style="font-size: 15px;"></span>
-              </a>
+<button type="button"
+    class="btn btn-icon btn-warning btn-sm buttonEditMeeting"
+    data-bs-toggle="tooltip"
+    data-popup="tooltip-custom"
+    data-bs-placement="auto"
+    title="Edit Pertemuan"
+    data-id="{{ $meeting->id }}"
+    data-judul="{{ $meeting->judul }}"
+    data-deskripsi="{{ $meeting->deskripsi }}">
+    <span class="tf-icons bx bx-edit" style="font-size: 15px;"></span>
+</button>
+
+
               <form action="{{ route('datapertemuan.destroy', $meeting->id) }}" method="POST" class="d-inline">
                 @csrf @method('DELETE')
                 <button type="submit" class="btn btn-icon btn-danger btn-sm" 
@@ -106,7 +115,7 @@
     @endif
   </div>
 </div>
-@endsection
+
 <div class="flash-message" data-add-meeting="@if(session()->has('success')) {{ session('success') }} @endif" ></div>
 <!-- Modal Tambah Pertemuan -->
 <div class="modal fade" id="formModalAdminMeeting" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
@@ -163,4 +172,45 @@
     </form>
   </div>
 </div>
+<!-- Modal Edit Meeting -->
+<div class="modal fade" id="formEditModalMeeting" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+<form action="{{ route('datapertemuan.update', ':id') }}" method="POST" id="formEditMeeting">
+      @csrf
+      @method('PUT')
+      <input type="hidden" name="id_meeting" class="idMeeting">
 
+      <div class="modal-content">
+        <div class="modal-header d-flex justify-content-between">
+          <h5 class="modal-title text-primary fw-bold">Edit Pertemuan&nbsp;<i class='bx bx-edit-alt fs-5'></i></h5>
+          <button type="button" class="btn p-0" data-bs-dismiss="modal">
+            <i class="bx bx-x-circle text-danger fs-4" title="Tutup"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="judulEdit" class="form-label required-label">Judul Meeting</label>
+            <input type="text" id="judulEdit" name="judul" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="deskripsiEdit" class="form-label">Deskripsi</label>
+            <textarea id="deskripsiEdit" name="deskripsi" rows="4" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+            <i class='bx bx-share'></i>&nbsp;Batal
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class='bx bx-save'></i>&nbsp;Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+@section('script')
+<script src="{{ asset('assets/js/datapertemuan/index.js') }}"></script>
+@endsection
+@endsection

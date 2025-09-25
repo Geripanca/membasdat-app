@@ -40,23 +40,22 @@ public function index()
         return view('admin.datapertemuan.show', compact('dataperteman'));
     }
 
-    public function edit(Meeting $dataperteman)
-    {
-        return view('admin.datapertemuan.edit', compact('dataperteman'));
-    }
-
-    public function update(Request $request, Meeting $dataperteman)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
+            'judul'     => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
         ]);
 
-        $dataperteman->update($request->only(['judul','deskripsi']));
+        $meeting = Meeting::findOrFail($id);
+        $meeting->update([
+            'judul'     => $request->judul,
+            'deskripsi' => $request->deskripsi,
+        ]);
 
-        return redirect()->route('datapertemuan.index')->with('success','Pertemuan berhasil diperbarui!');
+        return redirect()->route('datapertemuan.index')
+                         ->with('success', 'Meeting berhasil diperbarui!');
     }
-
     public function destroy(Meeting $dataperteman)
     {
         $dataperteman->delete();
