@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Meeting;
 use App\Models\Application;
+use App\Models\StepMeeting;
+use App\Models\Materi;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
 
 class MeetingController extends Controller
@@ -34,11 +37,16 @@ public function index()
         return redirect()->route('datapertemuan.index')->with('success','Pertemuan berhasil dibuat!');
     }
 
-    public function show(Meeting $datapertemuan)
-    {
-        $datapertemuan->load('steps'); // langkah-langkah RBL
-        return view('admin.datapertemuan.show', compact('dataperteman'));
-    }
+public function show(Meeting $datapertemuan)
+{
+    $app = Application::all(); 
+    $title = 'Detail Pertemuan';
+    $datapertemuan->load('steps'); 
+    $materis = Materi::all();
+    $quizzes = Quiz::all();
+
+    return view('admin.datapertemuan.show', compact('datapertemuan', 'app', 'title', 'materis', 'quizzes'));
+}
 
     public function update(Request $request, $id)
     {

@@ -17,6 +17,12 @@
     <div>Data Materi</div>
   </a>
 </li>
+<li class="menu-item {{ Request::is('tools*') ? 'active' : '' }}">
+  <a class="menu-link cursor-pointer" onclick="window.location.href='/tools'">
+    <i class="menu-icon tf-icons bx bx-bot"></i>
+    <div>Tools</div>
+  </a>
+</li>
 @endcan
 @can('user')
 <li class="menu-item {{ Request::is('materi') ? 'active' : '' }}">

@@ -30,7 +30,7 @@ class StepMeetingController extends Controller
 
         $meeting->steps()->create($request->only('judul', 'deskripsi', 'id_materis', 'id_quiz'));
 
-        return redirect()->route('meetings.show', $meeting->id)->with('success', 'Langkah berhasil ditambahkan.');
+        return redirect()->route('datapertemuan.show', $meeting->id)->with('success', 'Langkah berhasil ditambahkan.');
     }
 
     // Edit langkah

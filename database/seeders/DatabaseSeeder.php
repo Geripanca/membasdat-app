@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(5)->create();
         Application::create([
-            'name_app' => 'BubbleSmart',
-            'description_app' => 'BubbleSmart adalah platform edukasi terpercaya nomor satu di Dunia.'
+            'name_app' => 'Membasdat',
+            'description_app' => 'Membasdat adalah platform edukasi untuk mempelajari ERD.'
         ]);
 
         User::create([
@@ -92,40 +92,6 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('@Leonardovittorio123')
         ]);
 
-        Materi::create([
-            'image' => 'aksara/aksara_ha.png',
-            'title' => 'ha',
-            'category' => 'huruf',
-            'audio' => 'audio/bubblesmart.mp3'
-        ]);
-
-        // materi
-        $hurufAksara = ['na', 'ca', 'ra', 'ka', 'da', 'ta', 'sa', 'wa', 'la', 'pa', 'dha', 'ja', 'ya', 'nya', 'ma', 'ga', 'ba', 'tha', 'nga'];
-        foreach ($hurufAksara as $huruf) {
-            Materi::create([
-                'image' => 'aksara/aksara_' . $huruf . '.png',
-                'title' => $huruf,
-                'category' => 'huruf'
-            ]);
-        }
-
-        $pasanganAksara = ['Ha', 'Na', 'Ca', 'Ra', 'Ka', 'Da', 'Ta', 'Sa', 'Wa', 'La', 'Pa', 'Dha', 'Ja', 'Ya', 'Nya', 'Ma', 'Ga', 'Ba', 'Tha', 'Nga'];
-        foreach ($pasanganAksara as $pasangan) {
-            Materi::create([
-                'image' => 'aksara/pasangan_' . $pasangan . '.png',
-                'title' => $pasangan,
-                'category' => 'pasangan'
-            ]);
-        }
-
-        $sandhanganAksara = ['cecak', 'layar', 'pangkon', 'pepet', 'suku', 'taling_tarung', 'taling', 'tarung', 'wignyan', 'wulu'];
-        foreach ($sandhanganAksara as $sandhangan) {
-            Materi::create([
-                'image' => 'aksara/sandhangan_' . $sandhangan . '.png',
-                'title' => $sandhangan,
-                'category' => 'sandhangan'
-            ]);
-        }
 
         // forum
         Thread::create([
