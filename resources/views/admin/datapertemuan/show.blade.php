@@ -45,7 +45,7 @@
       <form action="">
         <div class="input-group">
           <input type="search" class="form-control" name="q" id="search"
-            style="border: 1px solid #d9dee3;" placeholder="Cari Data Pertemuan..." autocomplete="off" />
+            style="border: 1px solid #d9dee3;" placeholder="Cari Data Langkah..." autocomplete="off" />
         </div>
       </form>
     </div>
@@ -101,6 +101,7 @@
   </div>
 </div>
 </div>
+<div class="flash-message" data-add-steps="@if(session()->has('success')) {{ session('success') }} @endif" ></div>
 <div class="modal fade" id="formModalAdminSteps" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <form action="{{ route('steps.store', $datapertemuan->id) }}" method="post" class="modalStepMeeting">

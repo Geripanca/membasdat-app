@@ -331,5 +331,9 @@ $(function () {
     if (addMeeting) {
         setMessage(addMeeting, "success");
     }
-
+    //add steps
+        const addSteps = $(".flash-message").data("add-steps");
+    if (addSteps) {
+        setMessage(addSteps, "success");
+    }
 });
