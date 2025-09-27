@@ -70,9 +70,9 @@
                                     </a>
                               </li>@else
                               <li class="nav-item">
-                                    <a href="/materi" class="nav-link">
+                                    <a href="/pertemuan" class="nav-link">
                                           <span>
-                                                <i class="bx bx-book-content" style="font-size:16px"></i>&nbsp;Materi
+                                                <i class="bx bx-book-content" style="font-size:16px"></i>&nbsp;Pertemuan
                                           </span>
                                     </a>
                               </li>@endif @else
