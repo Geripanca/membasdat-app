@@ -60,6 +60,6 @@ class StepMeetingController extends Controller
     public function destroy(Meeting $meeting, StepMeeting $step)
     {
         $step->delete();
-        return redirect()->route('meetings.show', $meeting->id)->with('success', 'Langkah berhasil dihapus.');
+        return redirect()->route('datapertemuan.show', $meeting->id)->with('success', 'Langkah berhasil dihapus.');
     }
 }
