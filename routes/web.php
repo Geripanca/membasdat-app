@@ -79,6 +79,12 @@ Route::get('/nilai/search', [NilaiQuizController::class, 'search'])->middleware(
 Route::get('/nilai', [NilaiQuizController::class, 'index'])->middleware('member');
 Route::get('/nilai/details/{nilai:code}', [NilaiQuizController::class, 'show'])->middleware('member');
 Route::post('/nilai/delete/{result:code}', [NilaiQuizController::class, 'destroy'])->middleware('member');
+//pertemuan
+Route::middleware(['auth', 'member'])->group(function () {
+    Route::get('pertemuan', [MeetingController::class, 'indexUser'])->name('users.pertemuan.index');
+    Route::get('pertemuan/{id}', [MeetingController::class, 'showUser'])->name('users.pertemuan.show');
+});
+
 
 // Setting users
 Route::get('/pengaturan', [PengaturanUsersController::class, 'index'])->middleware('member');

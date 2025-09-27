@@ -70,4 +70,24 @@ public function destroy(Meeting $datapertemuan)
     return redirect()->route('datapertemuan.index')->with('success','Pertemuan berhasil dihapus!');
 }
 
+// MeetingController.php
+public function indexUser()
+{
+    $app = Application::all(); 
+    $title = 'Pertemuan';
+    $meetings = Meeting::all(); // ambil semua pertemuan
+
+    return view('users.pertemuan.index', compact('meetings','app','title'));
+}
+
+public function showUser($id)
+{
+    $app = Application::all(); 
+    $title = 'Detail Pertemuan';
+    $meeting = Meeting::with('steps.materi', 'steps.quiz')->findOrFail($id);
+
+    return view('users.pertemuan.show', compact('meeting','app','title'));
+}
+
+
 }

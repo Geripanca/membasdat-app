@@ -25,6 +25,12 @@
 </li>
 @endcan
 @can('user')
+<li class="menu-item {{ Request::is('pertemuan*') ? 'active' : '' }}">
+  <a class="menu-link cursor-pointer" onclick="window.location.href='/pertemuan'">
+    <i class="menu-icon tf-icons bx bx-calendar-event"></i>
+    <div>Pertemuan</div>
+  </a>
+</li>
 <li class="menu-item {{ Request::is('materi') ? 'active' : '' }}">
   <a class="menu-link cursor-pointer" onclick="window.location.href='/materi'">
     <i class="menu-icon tf-icons bx bx-book-content"></i>
