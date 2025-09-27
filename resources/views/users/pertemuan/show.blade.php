@@ -36,8 +36,17 @@
   <p class="text-muted">{{ $meeting->deskripsi }}</p>
 
   <hr>
-
+  <nav aria-label="breadcrumb" class="navbreadcrumb ">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="{{ route('users.pertemuan.index') }}" class="text-primary">Pertemuan</a>
+    </li>
+    <li class="breadcrumb-item active">{{ $meeting->judul }}</li>
+  </ol>
+</nav>
   <h5 class="mt-4">Langkah Pertemuan</h5>
+
+  
 
   <div class="accordion" id="accordionSteps">
     @forelse($meeting->steps as $index => $step)
