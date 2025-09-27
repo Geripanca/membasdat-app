@@ -74,10 +74,12 @@
               <td>{{ $step->materi?->title ?? '-' }}</td>
               <td>{{ $step->quiz?->title ?? '-' }}</td>
               <td class="text-center">
-                <a href="{{ route('steps.edit', [$datapertemuan->id, $step->id]) }}" 
-                   class="btn btn-sm btn-warning" title="Edit Step">
-                  <i class="bx bx-edit"></i>
-                </a>
+<button type="button" class="btn btn-sm btn-warning"
+        data-bs-toggle="modal"
+        data-bs-target="#formModalEditStep{{ $step->id }}">
+    <i class="bx bx-edit"></i>
+</button>
+
                 <form action="{{ route('steps.destroy', [$datapertemuan->id, $step->id]) }}" 
                       method="POST" style="display:inline;">
                   @csrf
@@ -102,6 +104,7 @@
 </div>
 </div>
 <div class="flash-message" data-add-steps="@if(session()->has('success')) {{ session('success') }} @endif" ></div>
+{{-- modal create --}}
 <div class="modal fade" id="formModalAdminSteps" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <form action="{{ route('steps.store', $datapertemuan->id) }}" method="post" class="modalStepMeeting">
@@ -182,6 +185,96 @@
     </form>
   </div>
 </div>
+{{-- modal edit --}}
+{{-- modal edit --}}
+@foreach($datapertemuan->steps as $step)
+<div class="modal fade" id="formModalEditStep{{ $step->id }}" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form action="{{ route('steps.update', [$datapertemuan->id, $step->id]) }}" method="POST" class="modalEditStepMeeting">
+      @csrf
+      @method('PUT')
+      <div class="modal-content">
+        <div class="modal-header d-flex justify-content-between">
+          <h5 class="modal-title text-warning fw-bold">
+            Edit Langkah Pertemuan&nbsp;<i class='bx bx-edit fs-5' style="margin-bottom: 1px;"></i>
+          </h5>
+          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-dismiss="modal">
+            <i class="bx bx-x-circle text-danger fs-4" title="Tutup"></i>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Judul Step -->
+          <div class="row">
+            <div class="col mb-3">
+              <label for="judul_step_{{ $step->id }}" class="form-label required-label">Judul Langkah</label>
+              <input type="text" id="judul_step_{{ $step->id }}" name="judul"
+                value="{{ old('judul', $step->judul) }}"
+                class="form-control @error('judul') is-invalid @enderror"
+                placeholder="Masukkan judul langkah" autocomplete="off" required>
+              @error('judul')
+              <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
+            </div>
+          </div>
+
+          <!-- Deskripsi -->
+          <div class="row">
+            <div class="col mb-3">
+              <label for="deskripsi_step_{{ $step->id }}" class="form-label required-label">Deskripsi</label>
+              <textarea id="deskripsi_step_{{ $step->id }}" name="deskripsi" rows="3"
+                class="form-control @error('deskripsi') is-invalid @enderror"
+                placeholder="Masukkan deskripsi langkah" autocomplete="off" required>{{ old('deskripsi', $step->deskripsi) }}</textarea>
+              @error('deskripsi')
+              <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
+            </div>
+          </div>
+
+          <!-- Pilih Materi -->
+          <div class="row">
+            <div class="col mb-3">
+              <label for="id_materis_{{ $step->id }}" class="form-label">Materi (opsional)</label>
+              <select id="id_materis_{{ $step->id }}" name="id_materis" class="form-select">
+                <option value="">-- Pilih Materi --</option>
+                @foreach($materis as $materi)
+                  <option value="{{ $materi->id }}" {{ $step->id_materis == $materi->id ? 'selected' : '' }}>
+                    {{ $materi->title }}
+                  </option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+
+          <!-- Pilih Quiz -->
+          <div class="row">
+            <div class="col mb-3">
+              <label for="id_quiz_{{ $step->id }}" class="form-label">Quiz (opsional)</label>
+              <select id="id_quiz_{{ $step->id }}" name="id_quiz" class="form-select">
+                <option value="">-- Pilih Quiz --</option>
+                @foreach($quizzes as $quiz)
+                  <option value="{{ $quiz->id }}" {{ $step->id_quiz == $quiz->id ? 'selected' : '' }}>
+                    {{ $quiz->title }}
+                  </option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+            <i class='bx bx-share fs-6'></i>&nbsp;Batal
+          </button>
+          <button type="submit" class="btn btn-warning">
+            <i class='bx bx-save fs-6'></i>&nbsp;Update Step
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+@endforeach
 
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>

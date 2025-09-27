@@ -53,7 +53,7 @@ class StepMeetingController extends Controller
 
         $step->update($request->only('judul', 'deskripsi', 'id_materis', 'id_quiz'));
 
-        return redirect()->route('meetings.show', $meeting->id)->with('success', 'Langkah berhasil diperbarui.');
+        return redirect()->route('datapertemuan.show', $meeting->id)->with('success', 'Langkah berhasil diperbarui.');
     }
 
     // Hapus langkah
