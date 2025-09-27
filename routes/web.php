@@ -66,7 +66,7 @@ Route::get('/materi', [MateriController::class, 'show'])->middleware('member');
 // quiz users
 Route::get('/quiz', [QuizController::class, 'index'])->middleware('member');
 Route::post('/quiz', [QuizController::class, 'store'])->middleware('member');
-Route::get('/quiz/start/{quiz:slug}', [QuizController::class, 'show'])->middleware('member');
+Route::get('/quiz/start/{quiz:slug}', [QuizController::class, 'show'])->middleware('member')->name('users.quiz.show');
 Route::post('/quiz/start/sejarah-aksara-jawa', function () {
   return view('dokumentasi.start', [
     'app' => Application::all(),
