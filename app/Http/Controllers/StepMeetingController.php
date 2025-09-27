@@ -28,7 +28,12 @@ class StepMeetingController extends Controller
             'id_quiz' => 'nullable|exists:quizzes,id',
         ]);
 
-        $meeting->steps()->create($request->only('judul', 'deskripsi', 'id_materis', 'id_quiz'));
+        $meeting->steps()->create([
+        'judul'     => $request->judul,
+        'deskripsi' => strip_tags($request->deskripsi), // 🔑 buang semua tag HTML
+        'id_materis'=> $request->id_materis,
+        'id_quiz'   => $request->id_quiz,
+        ]);
 
         return redirect()->route('datapertemuan.show', $meeting->id)->with('success', 'Langkah berhasil ditambahkan.');
     }
@@ -51,8 +56,12 @@ class StepMeetingController extends Controller
             'id_quiz' => 'nullable|exists:quizzes,id',
         ]);
 
-        $step->update($request->only('judul', 'deskripsi', 'id_materis', 'id_quiz'));
-
+    $step->update([
+        'judul'     => $request->judul,
+        'deskripsi' => strip_tags($request->deskripsi), // 🔑 buang semua tag HTML
+        'id_materis'=> $request->id_materis,
+        'id_quiz'   => $request->id_quiz,
+    ]);
         return redirect()->route('datapertemuan.show', $meeting->id)->with('success', 'Langkah berhasil diperbarui.');
     }
 
