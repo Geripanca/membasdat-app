@@ -16,6 +16,8 @@ use App\Http\Controllers\DiscussController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\StepMeetingController;
+use App\Http\Controllers\TugasController;
+use App\Http\Controllers\PengumpulanTugasController;
 use App\Models\User;
 use App\Models\Quiz;
 use App\Models\Thread;
@@ -225,6 +227,23 @@ Route::get('/admin/ubah-teks', function () {
     'title' => 'Ubah Teks Jadi Aksara Jawa',
   ]);
 })->middleware('admin');
+
+//Tugas
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    // CRUD Tugas (tanpa show)
+    Route::resource('tugas', TugasController::class)
+        ->except(['show'])
+        ->names([
+            'index'   => 'admin.tugas.index',
+            'update'  => 'admin.tugas.update',
+            'destroy' => 'admin.tugas.destroy',
+        ]);
+
+    // show tugas diarahkan ke daftar pengumpulan siswa
+    Route::get('tugas/{tugas}', [PengumpulanTugasController::class, 'index'])
+        ->name('admin.tugas.show');
+});
+
 
 
 // Access Admin & Users

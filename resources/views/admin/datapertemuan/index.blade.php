@@ -19,10 +19,7 @@
 @endsection
 
 @section('container')
-  <!-- {{-- Flash Message --}}
-  @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-  @endif -->
+
 <div class="row">
   <div class="col-md-12 col-lg-12 order-2 mb-4">
     <div class="card h-100">
