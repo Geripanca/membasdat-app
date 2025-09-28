@@ -4,18 +4,50 @@ namespace App\Http\Controllers;
 
 use App\Models\PengumpulanTugas;
 use App\Models\Tugas;
+use App\Models\User;
 use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PengumpulanTugasController extends Controller
 {
+    public function show(Tugas $tuga)
+{
+           $app = Application::all(); 
+        $title = 'Edit Tugas';
+    // Semua pengumpulan siswa
+        $pengumpulans = PengumpulanTugas::with('siswa')
+                        ->where('id_tugas', $tuga->id_tugas)
+                        ->get();
+
+    // Semua siswa
+// Semua siswa
+        $siswa = \App\Models\User::where('is_admin', 0)->get();
+       $pengumpulans = PengumpulanTugas::with('siswa')
+        ->where('id_tugas', $tuga->id_tugas)
+        ->get();
+
+
+// ID siswa yang sudah mengumpulkan
+$idsSudah = $pengumpulans->pluck('id_siswa');
+
+// Siswa yang belum mengumpulkan
+    $siswaBelum = User::where('is_admin', 0)
+                       ->whereNotIn('id', $idsSudah)
+                       ->get();
+
+    return view('admin.datatugas.view', compact('tuga', 'pengumpulans', 'siswaBelum','app','title'));
+}
     // List pengumpulan per tugas
-    public function index(Tugas $tuga)
-    {
-        $pengumpulans = $tuga->pengumpulan()->with('siswa')->get();
-        return view('pengumpulan.index', compact('tuga', 'pengumpulans'));
-    }
+public function index(Tugas $tuga)
+{
+    // Ambil semua pengumpulan tugas yang terkait dengan $tuga, sekaligus memuat data siswa
+    $pengumpulans = $tuga->pengumpulan()->with('siswa')->get();
+
+    // Kirim ke view admin untuk menampilkan detail tugas
+    return view('admin.tugas.show', compact('tuga', 'pengumpulans'));
+}
+
 
     // Form pengumpulan (untuk siswa)
     public function create(Tugas $tuga)

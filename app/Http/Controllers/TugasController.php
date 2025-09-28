@@ -56,10 +56,8 @@ class TugasController extends Controller
 }
 
     // Detail tugas
-    public function show(Tugas $tuga)
-    {
-        return view('tugas.show', compact('tuga'));
-    }
+
+
 
     // Form edit tugas
     public function edit(Tugas $tuga)

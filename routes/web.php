@@ -260,8 +260,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         ]);
 
     // show tugas diarahkan ke daftar pengumpulan siswa
-    Route::get('tugas/{tugas}', [PengumpulanTugasController::class, 'index'])
-        ->name('admin.tugas.show');
+    Route::get('tugas/{tugas}', [PengumpulanTugasController::class, 'show'])
+        ->name('admin.tugas.view');
 });
 
 

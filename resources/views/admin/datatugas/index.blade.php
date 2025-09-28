@@ -74,6 +74,11 @@
 <td>{{ $task->publish_at ? $task->publish_at->format('d M Y H:i') : '-' }}</td>
 
                   <td class="text-center">
+                      <a href="{{ route('admin.tugas.view', $task->id_tugas) }}" 
+       class="btn btn-sm btn-primary" 
+       title="Lihat Detail Tugas">
+        <i class="bx bx-show"></i>
+    </a>
 <button type="button" 
         class="btn btn-sm btn-warning" 
         title="Edit Tugas"
