@@ -28,8 +28,11 @@ class Tugas extends Model
         return $this->hasMany(PengumpulanTugas::class, 'id_tugas', 'id_tugas');
     }
     public function semuaSiswa()
-{
-    // Ambil semua siswa (users dengan is_admin = 0)
+    {
     return $this->belongsToMany(User::class, 'pengumpulan_tugas', 'id_tugas', 'id_siswa');
-}
+    }
+    public function getRouteKeyName()
+    {
+        return 'id_tugas';
+    }
 }

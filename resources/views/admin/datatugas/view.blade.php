@@ -18,56 +18,59 @@
 </style>
 @endsection
 @section('container')
-<h3>{{ $tuga->judul }}</h3>
-<p>{{ $tuga->deskripsi }}</p>
-<p><strong>Deadline:</strong> {{ $tuga->deadline ? $tuga->deadline->format('d M Y H:i') : '-' }}</p>
+<h3>{{ $tugas->judul }}</h3>
+<p>{{ $tugas->deskripsi }}</p>
+<p><strong>Deadline:</strong> {{ $tugas->deadline ? $tugas->deadline->format('d M Y H:i') : '-' }}</p>
 
 <hr>
-<h4>Siswa yang sudah mengumpulkan</h4>
-@if($pengumpulans->isEmpty())
-    <p>Belum ada siswa yang mengumpulkan.</p>
-@else
+<h4>Daftar Siswa</h4>
+<div class="table-responsive">
 <table class="table table-striped">
     <thead>
         <tr>
             <th>No</th>
-            <th>Nama Siswa</th>
+            <th>Nama</th>
+            <th>Email</th>
             <th>File</th>
             <th>Keterangan</th>
             <th>Status</th>
+            <th>Submit At</th>
             <th>Nilai</th>
+            <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($pengumpulans as $index => $pengumpulan)
+        @foreach($siswaTugas as $i => $s)
         <tr>
-            <td>{{ $index + 1 }}</td>
-            <td>{{ $pengumpulan->siswa->name }}</td>
+            <td>{{ $i+1 }}</td>
+            <td>{{ $s->name }}</td>
+            <td>{{ $s->email }}</td>
             <td>
-                @if($pengumpulan->file)
-                    <a href="{{ asset('storage/'.$pengumpulan->file) }}" target="_blank">Lihat</a>
+                @if($s->file)
+                    <a href="{{ asset('storage/'.$s->file) }}" target="_blank">Lihat</a>
                 @else
                     -
                 @endif
             </td>
-            <td>{{ $pengumpulan->keterangan ?? '-' }}</td>
-            <td>{{ ucfirst($pengumpulan->status) }}</td>
-            <td>{{ $pengumpulan->nilai ?? '-' }}</td>
+            <td>{{ $s->keterangan ?? '-' }}</td>
+            <td>{{ $s->status ? ucfirst($s->status) : 'Belum Mengumpulkan' }}</td>
+            <td>{{ $s->submit_at ?? '-' }}</td>
+            <td>{{ $s->nilai ?? '-' }}</td>
+            <td>
+                @if($s->id_pengumpulan)
+                <!-- Form beri nilai -->
+                <form action="" method="post" class="d-flex">
+                    @csrf
+                    <input type="number" name="nilai" class="form-control form-control-sm me-2"
+                           min="0" max="100" value="{{ $s->nilai }}">
+                    <button class="btn btn-sm btn-success">Simpan</button>
+                </form>
+                @else
+                    -
+                @endif
+            </td>
         </tr>
         @endforeach
     </tbody>
 </table>
-@endif
-
-<hr>
-<h4>Siswa yang belum mengumpulkan</h4>
-@if($siswaBelum->isEmpty())
-    <p>Semua siswa sudah mengumpulkan.</p>
-@else
-<ul>
-    @foreach($siswaBelum as $s)
-        <li>{{ $s->name }} ({{ $s->email }})</li>
-    @endforeach
-</ul>
-@endif
-@endsection
+</div>@endsection
