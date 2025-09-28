@@ -43,8 +43,8 @@
     <div>Materi</div>
   </a>
 </li>
-<li class="menu-item {{ Request::is('') ? 'active' : '' }}">
-  <a class="menu-link cursor-pointer" onclick="window.location.href=''">
+<li class="menu-item {{ Request::is('siswa/tugas*') ? 'active' : '' }}">
+  <a class="menu-link cursor-pointer" onclick="window.location.href='/siswa/tugas'">
     <i class="menu-icon tf-icons bx bx-file"></i>
     <div>Tugas</div>
   </a>

@@ -65,6 +65,24 @@ Route::post('/register', [RegisterController::class, 'store']);
 // materi users
 Route::get('/materi', [MateriController::class, 'show'])->middleware('member');
 
+// Tugas untuk siswa
+Route::prefix('siswa')->name('siswa.')->middleware('auth')->group(function () {
+    Route::get('tugas', [TugasController::class, 'indexSiswa'])->name('tugas.index');
+    Route::get('tugas/{tuga}', [TugasController::class, 'showSiswa'])->name('tugas.view');
+
+    // Pengumpulan tugas
+    Route::get('tugas/{tuga}/kumpul', [PengumpulanTugasController::class, 'create'])->name('tugas.kumpul.create');
+    Route::post('tugas/{tuga}/kumpul', [PengumpulanTugasController::class, 'store'])->name('tugas.kumpul.store');
+    Route::get('tugas/{tuga}/kumpul/edit', [PengumpulanTugasController::class, 'edit'])->name('tugas.kumpul.edit');
+Route::put('tugas/{tuga}/kumpul', [PengumpulanTugasController::class, 'update'])->name('tugas.kumpul.update');
+
+
+    // List pengumpulan saya
+    Route::get('pengumpulan', [PengumpulanTugasController::class, 'mySubmissions'])->name('pengumpulan.index');
+});
+
+
+
 // quiz users
 Route::get('/quiz', [QuizController::class, 'index'])->middleware('member');
 Route::post('/quiz', [QuizController::class, 'store'])->middleware('member');

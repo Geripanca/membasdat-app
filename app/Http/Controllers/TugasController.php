@@ -95,4 +95,33 @@ class TugasController extends Controller
         $tuga->delete();
         return redirect()->route('admin.tugas.index')->with('success', 'Tugas berhasil dihapus');
     }
+
+    //siswa
+    public function indexSiswa()
+    {
+    $app = Application::all(); 
+        $title = 'Tugas Siswa';
+        $tugas = Tugas::where(function ($q) {
+            $q->whereNull('publish_at')
+            ->orWhere('publish_at', '<=', now());
+        })
+        ->orderBy('deadline', 'asc')
+        ->get();
+
+    return view('users.tugas.index', compact('tugas','app','title'));
+    }
+
+public function showSiswa(Tugas $tuga)
+{
+        $userId = auth()->id();
+        $app = Application::all(); 
+        $title = 'Tugas Siswa';
+
+            $pengumpulan = $tuga->pengumpulan()
+                         ->where('id_siswa', $userId)
+                         ->first();
+
+    return view('users.tugas.view', compact('tuga','app','title', 'pengumpulan'));
+}
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PengumpulanTugas;
 use App\Models\Tugas;
+use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,31 +22,76 @@ class PengumpulanTugasController extends Controller
     {
         return view('pengumpulan.create', compact('tuga'));
     }
+    public function edit(Tugas $tuga)
+{
+        $app = Application::all(); 
+        $title = 'Edit Tugas';
+    $userId = auth()->id();
+    $pengumpulan = $tuga->pengumpulan()->where('id_siswa', $userId)->firstOrFail();
+    return view('users.tugas.edit', compact('tuga', 'pengumpulan','app','title'));
+}
+
+// Update pengumpulan
+public function update(Request $request, Tugas $tuga)
+{
+    $userId = auth()->id();
+    $pengumpulan = $tuga->pengumpulan()->where('id_siswa', $userId)->firstOrFail();
+
+    $request->validate([
+        'file' => 'nullable|file|mimes:pdf,docx,txt,zip|max:2048',
+        'keterangan' => 'nullable|string',
+    ]);
+
+    $data = [
+        'keterangan' => $request->keterangan,
+        'status' => now()->greaterThan($tuga->deadline) ? 'terlambat' : 'dikumpulkan',
+        'submit_at' => now(),
+    ];
+
+    if ($request->hasFile('file')) {
+        $data['file'] = $request->file('file')->store('pengumpulan', 'public');
+    }
+
+    $pengumpulan->update($data);
+
+    return redirect()->route('siswa.tugas.view', $tuga->id_tugas)
+                     ->with('success', 'Pengumpulan tugas berhasil diperbarui');
+}
 
     // Simpan pengumpulan
-    public function store(Request $request, Tugas $tuga)
-    {
-        $request->validate([
-            'file' => 'nullable|file|mimes:pdf,docx,txt,zip|max:2048',
-            'keterangan' => 'nullable|string',
-        ]);
+public function store(Request $request, Tugas $tuga)
+{
+    $userId = auth()->id();
 
-        $data = [
-            'id_tugas' => $tuga->id_tugas,
-            'id_siswa' => Auth::id(),
-            'keterangan' => $request->keterangan,
-            'status' => now()->greaterThan($tuga->deadline) ? 'terlambat' : 'dikumpulkan',
-            'submit_at' => now(),
-        ];
-
-        if ($request->hasFile('file')) {
-            $data['file'] = $request->file('file')->store('pengumpulan', 'public');
-        }
-
-        PengumpulanTugas::create($data);
-
-        return redirect()->route('tugas.show', $tuga->id_tugas)->with('success', 'Tugas berhasil dikumpulkan');
+    // Cek apakah siswa sudah submit
+    if ($tuga->pengumpulan()->where('id_siswa', $userId)->exists()) {
+        return redirect()->route('siswa.tugas.view', $tuga->id_tugas)
+                         ->with('error', 'Anda sudah mengumpulkan tugas ini.');
     }
+
+    $request->validate([
+        'file' => 'nullable|file|mimes:pdf,docx,txt,zip|max:2048',
+        'keterangan' => 'nullable|string',
+    ]);
+
+    $data = [
+        'id_tugas' => $tuga->id_tugas,
+        'id_siswa' => $userId,
+        'keterangan' => $request->keterangan,
+        'status' => now()->greaterThan($tuga->deadline) ? 'terlambat' : 'dikumpulkan',
+        'submit_at' => now(),
+    ];
+
+    if ($request->hasFile('file')) {
+        $data['file'] = $request->file('file')->store('pengumpulan', 'public');
+    }
+
+    PengumpulanTugas::create($data);
+
+    return redirect()->route('siswa.tugas.view', $tuga->id_tugas)
+                     ->with('success', 'Tugas berhasil dikumpulkan');
+}
+
 
     // Nilai pengumpulan (untuk guru/admin)
     public function nilai(Request $request, PengumpulanTugas $pengumpulan)
@@ -68,4 +114,17 @@ class PengumpulanTugasController extends Controller
         $pengumpulan->delete();
         return back()->with('success', 'Pengumpulan tugas berhasil dihapus');
     }
+
+    //siswa
+    // List pengumpulan milik siswa
+public function mySubmissions()
+{
+    $pengumpulans = PengumpulanTugas::with('tugas')
+        ->where('id_siswa', Auth::id())
+        ->orderBy('submit_at', 'desc')
+        ->get();
+
+    return view('users.pengumpulan.index', compact('pengumpulans'));
+}
+
 }
