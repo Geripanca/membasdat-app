@@ -57,20 +57,35 @@
             <td>{{ $s->submit_at ?? '-' }}</td>
             <td>{{ $s->nilai ?? '-' }}</td>
             <td>
-                @if($s->id_pengumpulan)
-                <!-- Form beri nilai -->
-                <form action="" method="post" class="d-flex">
-                    @csrf
-                    <input type="number" name="nilai" class="form-control form-control-sm me-2"
-                           min="0" max="100" value="{{ $s->nilai }}">
-                    <button class="btn btn-sm btn-success">Simpan</button>
-                </form>
-                @else
-                    -
-                @endif
+@if($s->id_pengumpulan)
+<!-- Modal per siswa -->
+    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#nilaiModal{{ $s->id_pengumpulan }}">
+        Nilai
+    </button>
+<div class="modal fade" id="nilaiModal{{ $s->id_pengumpulan }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form action="{{ route('pengumpulan.nilai.update', $s->id_pengumpulan) }}" method="post" class="modal-content">
+      @csrf
+      <div class="modal-header">
+        <h5 class="modal-title">Beri Nilai: {{ $s->name }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="number" name="nilai" min="0" max="100" class="form-control" value="{{ $s->nilai }}">
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Simpan</button>
+      </div>
+    </form>
+  </div>
+</div>
+@endif
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
-</div>@endsection
+</div>
+
+
+@endsection

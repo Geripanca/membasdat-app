@@ -262,6 +262,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // show tugas diarahkan ke daftar pengumpulan siswa
     Route::get('tugas/{tugas}', [PengumpulanTugasController::class, 'show'])
         ->name('admin.tugas.view');
+Route::post('admin/pengumpulan-tugas/{id}/nilai', [PengumpulanTugasController::class, 'updateNilai'])
+     ->name('pengumpulan.nilai.update');
+
+
 });
 
 

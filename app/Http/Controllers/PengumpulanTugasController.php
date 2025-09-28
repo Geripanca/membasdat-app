@@ -123,6 +123,20 @@ public function show(Tugas $tugas)
 
         return back()->with('success', 'Nilai berhasil diberikan');
     }
+    public function updateNilai(Request $request, $id)
+{
+    $request->validate([
+        'nilai' => 'required|numeric|min:0|max:100',
+    ]);
+
+    $pengumpulan = PengumpulanTugas::findOrFail($id);
+    $pengumpulan->nilai = $request->nilai;
+    $pengumpulan->status = 'Dinilai'; // opsional, bisa ganti status
+    $pengumpulan->save();
+
+    return back()->with('success', "Nilai siswa {$pengumpulan->siswa->name} berhasil disimpan.");
+}
+
 
     
     public function destroy(PengumpulanTugas $pengumpulan)
