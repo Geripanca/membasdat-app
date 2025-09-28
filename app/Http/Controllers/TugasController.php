@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tugas;
 use App\Models\Application;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -25,26 +26,34 @@ class TugasController extends Controller
     }
 
     // Simpan tugas baru
-    public function store(Request $request)
-    {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'file' => 'nullable|file|mimes:pdf,docx,txt,zip|max:2048',
-            'deadline' => 'nullable|date',
-            'publish_at' => 'nullable|date',
-        ]);
+ public function store(Request $request)
+{
+    $request->validate([
+        'judul' => 'required|string|max:255',
+        'deskripsi' => 'required|string',
+        'file' => 'nullable|file|mimes:pdf,docx,txt,zip|max:2048',
+        // 'deadline' dan 'publish_at' dilewatkan dari validasi date
+    ]);
 
-        $data = $request->only(['judul', 'deskripsi', 'deadline', 'publish_at']);
+    $data = $request->only(['judul', 'deskripsi', 'deadline', 'publish_at']);
 
-        if ($request->hasFile('file')) {
-            $data['file'] = $request->file('file')->store('tugas', 'public');
-        }
-
-        Tugas::create($data);
-
-        return redirect()->route('tugas.index')->with('success', 'Tugas berhasil dibuat');
+    // Konversi datetime-local ke format MySQL
+    if ($request->filled('deadline')) {
+        $data['deadline'] = Carbon::parse($request->deadline)->format('Y-m-d H:i:s');
     }
+
+    if ($request->filled('publish_at')) {
+        $data['publish_at'] = Carbon::parse($request->publish_at)->format('Y-m-d H:i:s');
+    }
+
+    // File
+    if ($request->hasFile('file')) {
+        $data['file'] = $request->file('file')->store('tugas', 'public');
+    }
+    Tugas::create($data);
+
+    return redirect()->route('admin.tugas.index')->with('success', 'Tugas berhasil dibuat');
+}
 
     // Detail tugas
     public function show(Tugas $tuga)
@@ -74,16 +83,16 @@ class TugasController extends Controller
         if ($request->hasFile('file')) {
             $data['file'] = $request->file('file')->store('tugas', 'public');
         }
-
+        
         $tuga->update($data);
 
-        return redirect()->route('tugas.index')->with('success', 'Tugas berhasil diperbarui');
+        return redirect()->route('admin.tugas.index')->with('success', 'Tugas berhasil diperbarui');
     }
 
     // Hapus tugas
     public function destroy(Tugas $tuga)
     {
         $tuga->delete();
-        return redirect()->route('tugas.index')->with('success', 'Tugas berhasil dihapus');
+        return redirect()->route('admin.tugas.index')->with('success', 'Tugas berhasil dihapus');
     }
 }

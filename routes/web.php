@@ -235,6 +235,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         ->except(['show'])
         ->names([
             'index'   => 'admin.tugas.index',
+            'store'   => 'admin.tugas.store',
+            'edit'    => 'admin.tugas.edit',
             'update'  => 'admin.tugas.update',
             'destroy' => 'admin.tugas.destroy',
         ]);

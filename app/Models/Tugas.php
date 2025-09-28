@@ -17,9 +17,12 @@ class Tugas extends Model
         'deskripsi',
         'file',
         'deadline',
-        'publish_at',
+        'publish_at'
     ];
-
+    protected $casts = [
+        'deadline'   => 'datetime',
+        'publish_at' => 'datetime',
+    ];
     public function pengumpulan()
     {
         return $this->hasMany(PengumpulanTugas::class, 'id_tugas', 'id_tugas');
