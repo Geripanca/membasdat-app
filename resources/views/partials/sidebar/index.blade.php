@@ -43,6 +43,12 @@
     <div>Materi</div>
   </a>
 </li>
+<li class="menu-item {{ Request::is('') ? 'active' : '' }}">
+  <a class="menu-link cursor-pointer" onclick="window.location.href=''">
+    <i class="menu-icon tf-icons bx bx-file"></i>
+    <div>Tugas</div>
+  </a>
+</li>
 <li class="menu-item {{ Request::is('quiz*') ? 'active' : '' }}">
   <a class="menu-link cursor-pointer" onclick="window.location.href='/quiz'">
     <i class="menu-icon tf-icons bx bx-joystick"></i>
