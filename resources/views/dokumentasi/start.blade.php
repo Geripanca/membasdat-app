@@ -48,7 +48,7 @@
                                                 <span aria-hidden="true" class="icon_documents_alt icon"></span>&nbsp;Dokumentasi
                                           </h1>
                                           <div class="meta">
-                                                <i class="far fa-clock"></i>&nbsp;Terakhir diperbarui: 1 Januari 2024
+                                                <i class="far fa-clock"></i>&nbsp;Terakhir diperbarui: 15 September 2025
                                           </div>
                                     </div>
                                     <div class="doc-body row">
@@ -77,14 +77,11 @@
                                                       <section id="materi" class="doc-section">
                                                             <h2 class="section-title">Materi</h2>
                                                             <div class="section-block">
-                                                                  <p>Dalam menu materi, Pengguna dapat melihat materi pembelajaran aksara jawa berupa macam-macam huruf aksara jawa, sandhangan, dan juga pasangannya serta pengguna bisa mendengarkan audio pelafalannya.</p></div>
+                                                                  <p>Dalam menu materi, Pengguna dapat melihat materi dalam 2 bentuk yang pertama dalam bentuk <strong>video</strong> dan yang kedua dalam bentuk <strong>dokumen</strong> User akan mengunjungi link video <i>Youtube</i> sementara untuk dokumen user harus <i>download</i> terlebih dahulu.</p></div>
                                                                   <div id="akses-materi" class="section-block">
                                                                         <h4 class="block-title">Bagaimana cara melihat materi?</h4>
-                                                                        <p>Untuk melihat materi, silahkan kunjungi tautan <a href="/materi" target="_blank"><b>ini</b></a>.</p><p><img class="img-responsive w-75 border border-primary" src="{{ asset('docs/assets/img/materi.png') }}" alt="cara akses materi {{ $app->name_app }}"></p>
-                                                                  </div>
-                                                                  <div id="voice" class="section-block">
-                                                                  <h4 class="block-title">Bagaimana cara mengakses voice materi?</h4>
-                                                                  <p>Untuk mengakses voice materi, silahkan kunjungi menu materi melalui tautan <a href="/materi" target="_blank"><b>ini</b></a>. Setelah itu, anda bisa mengklik di salah satu huruf pada aksara jawa. Dengan langkah tersebut, otomatis voice bisa anda dengarkan.</p></p><p><img class="img-responsive w-75 border border-primary" src="{{ asset('docs/assets/img/voice-materi.png') }}" alt="cara akses voice materi {{ $app->name_app }}"></p>
+                                                                        <p>Untuk melihat materi, silahkan kunjungi tautan <a href="/materi" target="_blank"><b>ini</b></a>.</p><p>
+                                                                        <img class="img-responsive w-75 border border-primary" src="{{ asset('docs/assets/img/materi.png') }}" alt="cara akses materi {{ $app->name_app }}"></p>
                                                                   </div>
                                                             </section>
                                                             <section id="quiz" class="doc-section">
@@ -128,7 +125,7 @@
                                                                         <h4 class="block-title">Bagaimana cara menghapus thread?</h4>
                                                                         <p>Untuk menghapus thread, anda bisa melihat icon kecil di sudut kanan atas pada thread. Tekan kemudian pilih opsi <b>'Hapus'</b>. Tunggu hingga muncul pop up konfirmasi. Setelah itu, anda bisa klik tombol <b>'Ya, Hapus!'</b>.</p><p>
                                                                         <img class="img-responsive w-75 border border-primary" src="{{ asset('docs/assets/img/delete-thread.png') }}" alt="cara delete thread {{ $app->name_app }}"></p><p>
-                                                                        <img class="img-responsive w-75 border border-primary" src="{{ asset('docs/assets/img/confirm-delete.png') }}" alt="pop up delete thread {{ $app->name_app }}"></p></div><div id="add-comment" class="section-block">
+                                                                        <img class="img-responsive w-75 border border-primary" src="{{ asset('docs/assets/img/confirm-thread.png') }}" alt="pop up delete thread {{ $app->name_app }}"></p></div><div id="add-comment" class="section-block">
                                                                         <h4 class="block-title">Bagaimana cara menambah komentar thread?</h4>
                                                                         <p>Untuk menambah komentar pada thread, silahkan kunjungi menu thread terlebih dahulu melalui tautan <a href="/view/discuss" target="_blank"><b>ini</b></a>. Anda bisa pilih salah satu thread yang ingin anda komentari. Masukkan komentar di form yang telah tersedia. Anda juga bisa membalas komentar orang lain.</p></p><p>
                                                                         <img class="img-responsive w-75 border border-primary" src="{{ asset('docs/assets/img/add-comment.png') }}" alt="cara tambah komentar thread {{ $app->name_app }}"></p>
@@ -194,9 +191,6 @@
                                                 <nav class="nav doc-sub-menu nav flex-column">
                                                       <li class="nav-item">
                                                       <a class="nav-link scrollto" href="#akses-materi">Lihat Materi</a>
-                                                      </li>
-                                                      <li class="nav-item">
-                                                      <a class="nav-link scrollto" href="#voice">Akses Voice Materi</a>
                                                       </li>
                                                 </nav>
                                                       <li class="nav-item">
@@ -267,7 +261,7 @@
                                     <div class="figure-holder col-md-5 col-sm-12 col-xs-12">
                                           <div class="figure-holder-inner">
                                                 <a href="" target="_blank">
-                                                      <img class="img-responsive w-100" src="{{ asset('docs/assets/img/bubblesmart.png') }}" alt="{{ $app->name_app }}"></a><a class="mask" href="/"><i class="icon fa fa-trophy" style="color:#696cff"></i></a>
+                                                      <img class="img-responsive w-100" src="{{ asset('docs/assets/img/membasdat.png') }}" alt="{{ $app->name_app }}"></a><a class="mask" href="/"><i class="icon fa fa-trophy" style="color:#696cff"></i></a>
                                                 </div>
                                           </div>
                                           <div class="content-holder col-md-7 col-xs-12">
