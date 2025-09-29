@@ -25,10 +25,14 @@
 @section('container')
 
 <div class="container mt-4">
-  <h4>Daftar Tugas</h4>
+  <h3><strong>Daftar Tugas</strong></h3>
+  <p><i>Daftar tugas siswa</i><p>
+
+  <hr>
+  <div class="card p-5">
   <div class="d-flex overflow-auto" style="gap: 1rem;">
     @foreach($tugas as $task)
-      <div class="card shadow-sm" style="min-width: 250px;">
+      <div class="card border-4" style="min-width: 250px;">
         <div class="card-body">
           <h5 class="card-title">{{ $task->judul }}</h5>
           <p class="card-text text-truncate" style="max-width: 200px;">{{ $task->deskripsi }}</p>
@@ -38,5 +42,6 @@
       </div>
     @endforeach
   </div>
+   </div> 
 </div>
 @endsection

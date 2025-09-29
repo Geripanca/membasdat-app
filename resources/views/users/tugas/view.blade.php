@@ -25,17 +25,19 @@
 @section('container')
 
 <div class="container mt-4">
-  <h3>{{ $tuga->judul }}</h3>
-  <p>{{ $tuga->deskripsi }}</p>
+<div class="card p-3">
+  <h4><strong>{{ $tuga->judul }}</strong></h4>
+  <p><i>{{ $tuga->deskripsi }}</i></p>
   <p class="text-muted">Deadline: {{ $tuga->deadline ? $tuga->deadline->format('d M Y H:i') : '-' }}</p>
-
+</div>
   <hr>
 
 @if($pengumpulan)
     <div class="alert alert-success">
         Anda sudah mengumpulkan tugas ini.
     </div>
-    <p><strong>File dikumpulkan:</strong> 
+    <div class="card p-3 mb-2">
+        <p><strong>File dikumpulkan:</strong> 
        @if($pengumpulan->file)
            <a href="{{ asset('storage/'.$pengumpulan->file) }}" target="_blank">Lihat</a>
        @else
@@ -47,6 +49,7 @@
     @if($pengumpulan->nilai)
         <p><strong>Nilai:</strong> {{ $pengumpulan->nilai }}</p>
     @endif
+     </div>
     <a href="{{ route('siswa.tugas.kumpul.edit', $tuga->id_tugas) }}" class="btn btn-warning mb-3">
         Edit Jawaban
     </a>
@@ -61,8 +64,10 @@
             <label for="keterangan">Keterangan (opsional)</label>
             <textarea name="keterangan" class="form-control"></textarea>
         </div>
+   
         <button type="submit" class="btn btn-primary">Kirim Tugas</button>
     </form>
+    
 @endif
 
 </div>
