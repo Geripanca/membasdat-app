@@ -275,7 +275,7 @@
                                                             <p><strong>Bagaimana cara menggunakan&nbsp;{{ $app->name_app }}&nbsp;?</strong></p>
                                                       </h4>
                                                             <p>Cara menggunakan aplikasi ini cukup mudah, pertama, anda bisa langsung mendaftar melalui tautan <a href="/register" class="text-white" style="text-decoration:none"><i><b>ini</b></i></a>. Setalah mendaftar, anda bisa mengakses semua fitur pengguna yang ada di aplikasi&nbsp;{{ $app->name_app }}</p>
-                                                            <p class="author">Author:&nbsp;<a href="http://github.com/bubblevy" target="_blank" class="text-white" style="text-decoration:none">@Bubble</a></p>
+                                                            <p class="author">Author:&nbsp;<a href="http://github.com/bubblevy" target="_blank" class="text-white" style="text-decoration:none">@Geripanca</a></p>
                                                       </div>
                                                 </div>
                                           </div>
