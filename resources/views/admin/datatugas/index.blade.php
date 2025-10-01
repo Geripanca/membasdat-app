@@ -70,23 +70,113 @@
                       -
                     @endif
                   </td>
-<td>{{ $task->deadline ? $task->deadline->format('d M Y H:i') : '-' }}</td>
-<td>{{ $task->publish_at ? $task->publish_at->format('d M Y H:i') : '-' }}</td>
+                <td>{{ $task->deadline ? $task->deadline->format('d M Y H:i') : '-' }}</td>
+                <td>{{ $task->publish_at ? $task->publish_at->format('d M Y H:i') : '-' }}</td>
 
                   <td class="text-center">
                       <a href="{{ route('admin.tugas.view', $task->id_tugas) }}" 
-       class="btn btn-sm btn-primary" 
-       title="Lihat Detail Tugas">
-        <i class="bx bx-show"></i>
-    </a>
-<button type="button" 
-        class="btn btn-sm btn-warning" 
-        title="Edit Tugas"
-        data-bs-toggle="modal" 
-        data-bs-target="#formModalEditTugas{{ $task->id }}">
-  <i class="bx bx-edit"></i>
-</button>
+                      class="btn btn-sm btn-primary" 
+                      title="Lihat Detail Tugas">
+                     <i class="bx bx-show"></i>
+                      </a>
+                    <button type="button" 
+                    class="btn btn-sm btn-warning" 
+                    title="Edit Tugas"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#formModalEditTugas{{ $task->id }}">
+                    <i class="bx bx-edit"></i>
+                  </button>
+          <!-- Modal Edit Tugas -->
+          <div class="modal fade" id="formModalEditTugas{{ $task->id }}" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <form action="{{ route('admin.tugas.update', $task) }}" method="post" enctype="multipart/form-data">
+              @csrf
+              @method('PUT')
+            <div class="modal-content">
+              <div class="modal-header d-flex justify-content-between">
+              <h5 class="modal-title text-primary fw-bold">
+              Edit Tugas&nbsp;<i class='bx bx-edit fs-5' style="margin-bottom: 1px;"></i>
+              </h5>
+              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-dismiss="modal">
+              <i class="bx bx-x-circle text-danger fs-4" title="Tutup"></i>
+              </button>
+            </div>
+          <div class="modal-body">
+            <!-- Judul Tugas -->
+            <div class="mb-3">
+            <label for="judul{{ $task->id }}" class="form-label required-label">Judul Tugas</label>
+            <input type="text" id="judul{{ $task->id }}" name="judul"
+              value="{{ old('judul', $task->judul) }}"
+              class="form-control @error('judul') is-invalid @enderror"
+              placeholder="Masukkan judul tugas" required>
+            @error('judul')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+          </div>
 
+          <!-- Deskripsi -->
+          <div class="mb-3">
+            <label for="deskripsi{{ $task->id }}" class="form-label required-label">Deskripsi</label>
+            <textarea id="deskripsi{{ $task->id }}" name="deskripsi" rows="4"
+              class="form-control @error('deskripsi') is-invalid @enderror"
+              placeholder="Masukkan deskripsi tugas" required>{{ old('deskripsi', $task->deskripsi) }}</textarea>
+            @error('deskripsi')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+          </div>
+
+          <!-- File Tugas -->
+          <div class="mb-3">
+            <label for="file{{ $task->id }}" class="form-label">File (opsional)</label>
+            <input type="file" id="file{{ $task->id }}" name="file"
+              class="form-control @error('file') is-invalid @enderror" accept=".pdf,.docx,.txt,.zip">
+            @if ($task->file)
+              <small class="text-muted">File saat ini: <a href="{{ asset('storage/'.$task->file) }}" target="_blank">Lihat</a></small>
+            @endif
+            @error('file')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+          </div>
+
+          <!-- Deadline -->
+          <div class="mb-3">
+            <label for="deadline{{ $task->id }}" class="form-label">Deadline (opsional)</label>
+            <input type="datetime-local" 
+                   id="deadline{{ $task->id }}" 
+                   name="deadline"
+                   class="form-control @error('deadline') is-invalid @enderror" 
+                   value="{{ old('deadline', $task->deadline ? $task->deadline->format('Y-m-d\TH:i') : '') }}">
+            @error('deadline')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+          </div>
+
+          <!-- Publish At -->
+          <div class="mb-3">
+            <label for="publish_at{{ $task->id }}" class="form-label">Publish (opsional)</label>
+            <input type="datetime-local" 
+                   id="publish_at{{ $task->id }}" 
+                   name="publish_at"
+                   class="form-control @error('publish_at') is-invalid @enderror" 
+                   value="{{ old('publish_at', $task->publish_at ? $task->publish_at->format('Y-m-d\TH:i') : '') }}">
+            @error('publish_at')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+            <i class='bx bx-share fs-6' style="margin-bottom: 3px;"></i>&nbsp;Batal
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class='bx bx-save fs-6' style="margin-bottom: 3px;"></i>&nbsp;Update Tugas
+          </button>
+          </div>
+        </div>
+          </form>
+        </div>
+      </div>
                     <form action="{{ route('admin.tugas.destroy', $task->id_tugas) }}" method="POST" style="display:inline;">
                       @csrf
                       @method('DELETE')
@@ -157,35 +247,32 @@
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
           </div>
-
           <!-- Deadline -->
           <div class="mb-3">
             <label for="deadline" class="form-label">Deadline (opsional)</label>
-<input type="datetime-local" 
-       id="deadline" 
-       name="deadline"
-       class="form-control @error('deadline') is-invalid @enderror" 
-       value="{{ $task->deadline ? \Carbon\Carbon::parse($task->deadline)->format('Y-m-d\TH:i') : '' }}">
+            <input type="datetime-local" 
+            id="deadline" 
+            name="deadline"
+            class="form-control @error('deadline') is-invalid @enderror"
+            value="{{ old('deadline') }}">
             @error('deadline')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
-          </div>
+            </div>
 
           <!-- Publish At -->
           <div class="mb-3">
             <label for="publish_at" class="form-label">Publish (opsional)</label>
-<input type="datetime-local" 
-       id="publish_at" 
-       name="publish_at"
-       class="form-control @error('publish_at') is-invalid @enderror" 
-       value="{{ $task->publish_at ? \Carbon\Carbon::parse($task->publish_at)->format('Y-m-d\TH:i') : '' }}">
+            <input type="datetime-local" 
+            id="publish_at" 
+            name="publish_at"
+            class="form-control @error('publish_at') is-invalid @enderror"
+            value="{{ old('publish_at') }}">
             @error('publish_at')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-          </div>
-
+              <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
+              </div>
         </div>
-
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
             <i class='bx bx-share fs-6' style="margin-bottom: 3px;"></i>&nbsp;Batal
@@ -198,98 +285,6 @@
     </form>
   </div>
 </div>
-<!-- Modal Edit Tugas -->
-<div class="modal fade" id="formModalEditTugas{{ $task->id }}" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <form action="{{ route('admin.tugas.update', $task) }}" method="post" enctype="multipart/form-data">
-      @csrf
-      @method('PUT')
-      <div class="modal-content">
-        <div class="modal-header d-flex justify-content-between">
-          <h5 class="modal-title text-primary fw-bold">
-            Edit Tugas&nbsp;<i class='bx bx-edit fs-5' style="margin-bottom: 1px;"></i>
-          </h5>
-          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-dismiss="modal">
-            <i class="bx bx-x-circle text-danger fs-4" title="Tutup"></i>
-          </button>
-        </div>
 
-        <div class="modal-body">
-          <!-- Judul Tugas -->
-          <div class="mb-3">
-            <label for="judul{{ $task->id }}" class="form-label required-label">Judul Tugas</label>
-            <input type="text" id="judul{{ $task->id }}" name="judul"
-              value="{{ old('judul', $task->judul) }}"
-              class="form-control @error('judul') is-invalid @enderror"
-              placeholder="Masukkan judul tugas" required>
-            @error('judul')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-          </div>
-
-          <!-- Deskripsi -->
-          <div class="mb-3">
-            <label for="deskripsi{{ $task->id }}" class="form-label required-label">Deskripsi</label>
-            <textarea id="deskripsi{{ $task->id }}" name="deskripsi" rows="4"
-              class="form-control @error('deskripsi') is-invalid @enderror"
-              placeholder="Masukkan deskripsi tugas" required>{{ old('deskripsi', $task->deskripsi) }}</textarea>
-            @error('deskripsi')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-          </div>
-
-          <!-- File Tugas -->
-          <div class="mb-3">
-            <label for="file{{ $task->id }}" class="form-label">File (opsional)</label>
-            <input type="file" id="file{{ $task->id }}" name="file"
-              class="form-control @error('file') is-invalid @enderror" accept=".pdf,.docx,.txt,.zip">
-            @if ($task->file)
-              <small class="text-muted">File saat ini: <a href="{{ asset('storage/'.$task->file) }}" target="_blank">Lihat</a></small>
-            @endif
-            @error('file')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-          </div>
-
-          <!-- Deadline -->
-          <div class="mb-3">
-            <label for="deadline{{ $task->id }}" class="form-label">Deadline (opsional)</label>
-            <input type="datetime-local" 
-                   id="deadline{{ $task->id }}" 
-                   name="deadline"
-                   class="form-control @error('deadline') is-invalid @enderror" 
-                   value="{{ old('deadline', $task->deadline ? $task->deadline->format('Y-m-d\TH:i') : '') }}">
-            @error('deadline')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-          </div>
-
-          <!-- Publish At -->
-          <div class="mb-3">
-            <label for="publish_at{{ $task->id }}" class="form-label">Publish (opsional)</label>
-            <input type="datetime-local" 
-                   id="publish_at{{ $task->id }}" 
-                   name="publish_at"
-                   class="form-control @error('publish_at') is-invalid @enderror" 
-                   value="{{ old('publish_at', $task->publish_at ? $task->publish_at->format('Y-m-d\TH:i') : '') }}">
-            @error('publish_at')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-          </div>
-
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
-            <i class='bx bx-share fs-6' style="margin-bottom: 3px;"></i>&nbsp;Batal
-          </button>
-          <button type="submit" class="btn btn-success">
-            <i class='bx bx-save fs-6' style="margin-bottom: 3px;"></i>&nbsp;Update Tugas
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
 
 @endsection
