@@ -60,7 +60,7 @@
                 </div>
               </div>
               <div class="mb-3 divBtn" style="cursor: not-allowed;">
-                <button class="btn btn-primary d-grid w-100 tombolLogin disabled" type="submit">Log in</button>
+                <button class="btn btn-primary d-grid w-100 tombolLogin" type="submit">Log in</button>
               </div>
             </form>
             <p class="text-center">

@@ -76,10 +76,18 @@ class TugasController extends Controller
             'publish_at' => 'nullable|date',
         ]);
 
+
         $data = $request->only(['judul', 'deskripsi', 'deadline', 'publish_at']);
 
         if ($request->hasFile('file')) {
             $data['file'] = $request->file('file')->store('tugas', 'public');
+        }
+        if ($request->filled('deadline')) {
+            $data['deadline'] = \Carbon\Carbon::parse($request->deadline)->format('Y-m-d H:i:s');
+        }
+
+        if ($request->filled('publish_at')) {
+            $data['publish_at'] = \Carbon\Carbon::parse($request->publish_at)->format('Y-m-d H:i:s');
         }
         
         $tuga->update($data);

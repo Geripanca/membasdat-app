@@ -9,28 +9,39 @@ $(".confirmQuiz").on("click", function () {
     $("#quizForm").submit();
 });
 
-// fungsi untuk menyimpan jawaban user sementara sebelum submit
-document
-    .querySelectorAll('input[type="radio"]')
-    .forEach(function (radioButton) {
-        radioButton.addEventListener("change", function () {
-            // Menggunakan radioButton.name sebagai kunci unik
-            const groupName = radioButton.name;
-            localStorage.setItem("quiz_" + groupName, radioButton.id);
-        });
-    });
+// -----------------------------
+// SIMPAN JAWABAN SEMENTARA
+// -----------------------------
+document.querySelectorAll('input[type="radio"]').forEach(function (radioButton) {
+  radioButton.addEventListener("change", function () {
+    const groupName = radioButton.name;
+    localStorage.setItem("quiz_" + groupName, radioButton.id);
+  });
+});
 
-document
-    .querySelectorAll('input[type="radio"]')
-    .forEach(function (radioButton) {
-        const groupName = radioButton.name;
-        const selectedId = localStorage.getItem("quiz_" + groupName);
-
-        if (selectedId) {
-            radioButton.checked = radioButton.id === selectedId;
-        }
-    });
+document.querySelectorAll('input[type="radio"]').forEach(function (radioButton) {
+  const groupName = radioButton.name;
+  const selectedId = localStorage.getItem("quiz_" + groupName);
+  if (selectedId) {
+    radioButton.checked = radioButton.id === selectedId;
+  }
+});
 
 $(".btlQuiz").on("click", function () {
-    localStorage.clear();
+  localStorage.clear();
 });
+
+
+
+// -----------------------------
+// KONFIRMASI KELUAR (BROWSER BUILT-IN)
+// -----------------------------
+let confirmExit = true;
+
+window.addEventListener("beforeunload", function (e) {
+  if (confirmExit) {
+    e.preventDefault();
+    e.returnValue = ""; // Ini memicu popup bawaan browser
+  }
+});
+
