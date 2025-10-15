@@ -75,7 +75,8 @@ class AdminDataQuizController extends Controller
             'option.2' => 'Required|max:255',
             'option.3' => 'Required|max:255',
             'option.4' => 'Required|max:255',
-            'correctAnswer' => 'Required|in:1,2,3,4'
+            'option.5' => 'Required|max:255', 
+            'correctAnswer' => 'Required|in:1,2,3,4,5' 
         ], [
             'option.1.required' => 'The option 1 field is required.',
             'option.1.max' => 'The option 1 field must not be greater than 255 characters.',
@@ -85,6 +86,8 @@ class AdminDataQuizController extends Controller
             'option.3.max' => 'The option 3 field must not be greater than 255 characters.',
             'option.4.required' => 'The option 4 field is required.',
             'option.4.max' => 'The option 4 field must not be greater than 255 characters.',
+            'option.5.required' => 'The option 5 field is required.',
+            'option.5.max' => 'The option 5 field must not be greater than 255 characters.',
         ]);
 
         // transaction database
@@ -157,7 +160,8 @@ class AdminDataQuizController extends Controller
             'editOption.2' => 'Required|max:255',
             'editOption.3' => 'Required|max:255',
             'editOption.4' => 'Required|max:255',
-            'editCorrectAnswer' => 'Required|in:1,2,3,4'
+            'editOption.5' => 'Required|max:255',
+            'editCorrectAnswer' => 'Required|in:1,2,3,4,5'
         ], [
             'editCorrectAnswer.required' => 'The jawaban benar field is required.',
             'editQuestion.required' => 'The pertanyaan field is required.',
@@ -172,6 +176,8 @@ class AdminDataQuizController extends Controller
             'editOption.3.max' => 'The option 3 field must not be greater than 255 characters.',
             'editOption.4.required' => 'The option 4 field is required.',
             'editOption.4.max' => 'The option 4 field must not be greater than 255 characters.',
+            'editOption.5.required' => 'The option 5 field is required.',
+            'editOption.5.max' => 'The option 5 field must not be greater than 255 characters.',
         ]);
 
         $validated['question'] = $validated['editQuestion'];

@@ -71,6 +71,7 @@
                   <th class="text-white">Option 2</th>
                   <th class="text-white">Option 3</th>
                   <th class="text-white">Option 4</th>
+                   <th class="text-white">Option 5</th>
                   <th class="text-white text-center">Score</th>
                   <th class="text-white">Tanggal Pembuatan Soal</th>
                   <th class="text-white">Tanggal Update Soal</th>
@@ -193,6 +194,15 @@
               </div>
               @enderror
             </div>
+              <div class="col">
+                <label for="option5" class="form-label required-label">Option 5</label>
+                <input type="text" id="option5" name="option[5]" value="{{ old('option.5') }}" class="form-control @error('option.5') is-invalid @enderror" autocomplete="off" placeholder="Option kelima" required>
+                @error('option.5')
+                <div class="invalid-feedback" style="margin-bottom: -3px;">
+                  {{ $message }}
+                </div>
+                @enderror
+            </div>
           </div>
           <div class="row g-2">
             <div class="col">
@@ -203,6 +213,7 @@
                 <option value="2" @if(old('correctAnswer')==2) selected @endif>Option 2</option>
                 <option value="3" @if(old('correctAnswer')==3) selected @endif>Option 3</option>
                 <option value="4" @if(old('correctAnswer')==4) selected @endif>Option 4</option>
+                <option value="5" @if(old('correctAnswer')==5) selected @endif>Option 5</option>
               </select>
               @error('correctAnswer')
               <div class="invalid-feedback" style="margin-bottom: -3px;">
@@ -293,6 +304,15 @@
               </div>
               @enderror
             </div>
+            <div class="col">
+              <label for="editOption5" class="form-label required-label">Option 5</label>
+              <input type="text" id="editOption5" name="editOption[5]" value="{{ old('editOption.5') }}" class="form-control @error('editOption.5') is-invalid @enderror" autocomplete="off" placeholder="Option kelima" required>
+              @error('editOption.5')
+              <div class="invalid-feedback" style="margin-bottom: -3px;">
+                {{ $message }}
+              </div>
+              @enderror
+            </div>
           </div>
           <div class="row g-2">
             <div class="col">
@@ -303,6 +323,7 @@
                 <option class="dipilih2" value="2" @if(old('editCorrectAnswer')==2) selected @endif>Option 2</option>
                 <option class="dipilih3" value="3" @if(old('editCorrectAnswer')==3) selected @endif>Option 3</option>
                 <option class="dipilih4" value="4" @if(old('editCorrectAnswer')==4) selected @endif>Option 4</option>
+                <option class="dipilih5" value="5" @if(old('editCorrectAnswer')==5) selected @endif>Option 5</option>
               </select>
               @error('editCorrectAnswer')
               <div class="invalid-feedback" style="margin-bottom: -3px;">
