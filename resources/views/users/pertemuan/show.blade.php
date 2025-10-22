@@ -62,7 +62,7 @@
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapse{{ $step->id }}" aria-expanded="false"
                             aria-controls="collapse{{ $step->id }}">
-                        {{ $index + 1 }}. {{ $step->judul }}
+                             {{ $step->judul }}
                     </button>
                 </h2>
 
