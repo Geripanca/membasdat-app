@@ -66,14 +66,13 @@
                     </button>
                 </h2>
 
-                <div id="collapse{{ $step->id }}" class="accordion-collapse collapse"
-                     aria-labelledby="heading{{ $step->id }}">
-                    <div class="accordion-body">
-                        <p>{{ $step->deskripsi }}</p>
+<div id="collapse{{ $step->id }}" class="accordion-collapse collapse"
+     aria-labelledby="heading{{ $step->id }}">
+    <div class="accordion-body">
+        <div>{!! $step->deskripsi !!}</div>
 
                         {{-- Materi Step --}}
                         @if($step->materi)
-                            <h6 class="mt-3 mb-2"><i class="bx bx-book"></i> Materi</h6>
                             <div class="scrolling-wrapper d-flex flex-row flex-nowrap">
 
                                 {{-- PDF --}}

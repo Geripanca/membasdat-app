@@ -32,6 +32,18 @@ use App\Models\Thread;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::post('/upload-image', function (Illuminate\Http\Request $request) {
+    if ($request->hasFile('file')) {
+        $path = $request->file('file')->store('uploads', 'public');
+        return response()->json([
+            'success' => true,
+            'file' => asset('storage/' . $path)
+        ]);
+    }
+    return response()->json(['success' => false]);
+})->name('upload.image');
+
 Route::get('/tools', function () {
     return view('users.tools.index', [
         'title' => 'Tools',

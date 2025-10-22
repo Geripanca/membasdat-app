@@ -30,7 +30,7 @@ class StepMeetingController extends Controller
 
         $meeting->steps()->create([
         'judul'     => $request->judul,
-        'deskripsi' => strip_tags($request->deskripsi), // 🔑 buang semua tag HTML
+        'deskripsi' => $request->deskripsi,
         'id_materis'=> $request->id_materis,
         'id_quiz'   => $request->id_quiz,
         ]);
@@ -58,7 +58,7 @@ class StepMeetingController extends Controller
 
     $step->update([
         'judul'     => $request->judul,
-        'deskripsi' => strip_tags($request->deskripsi), // 🔑 buang semua tag HTML
+        'deskripsi' => $request->deskripsi,
         'id_materis'=> $request->id_materis,
         'id_quiz'   => $request->id_quiz,
     ]);
