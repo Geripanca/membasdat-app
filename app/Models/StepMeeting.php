@@ -10,7 +10,7 @@ class StepMeeting extends Model
     use HasFactory;
 
     protected $table = 'step_meeting';
-    protected $fillable = ['id_pertemuan', 'judul', 'deskripsi', 'id_materis', 'id_quiz'];
+    protected $fillable = ['id_pertemuan', 'judul', 'deskripsi', 'id_materis', 'id_quiz','id_tugas'];
 
     public function meeting()
     {
@@ -25,5 +25,9 @@ class StepMeeting extends Model
     public function quiz()
     {
         return $this->belongsTo(\App\Models\Quiz::class, 'id_quiz');
+    }
+    public function tugas()
+    {
+        return $this->belongsTo(\App\Models\Tugas::class, 'id_tugas', 'id_tugas');
     }
 }

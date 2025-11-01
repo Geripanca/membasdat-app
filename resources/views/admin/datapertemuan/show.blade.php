@@ -145,6 +145,17 @@
               @endforeach
             </select>
           </div>
+
+          <div class="mb-3">
+            <label class="form-label">Tugas (opsional)</label>
+            <select name="id_tugas" class="form-select">
+            <option value="">-- Pilih Tugas --</option>
+            @foreach($tugas as $t)
+              <option value="{{ $t->id_tugas }}">{{ $t->judul }}</option>
+            @endforeach
+          </select>
+          </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Batal</button>
@@ -203,6 +214,19 @@
               @endforeach
             </select>
           </div>
+
+          <div class="mb-3">
+  <label class="form-label">Tugas (opsional)</label>
+  <select name="id_tugas" class="form-select">
+    <option value="">-- Pilih Tugas --</option>
+    @foreach($tugas as $t)
+      <option value="{{ $t->id_tugas }}" {{ $step->id_tugas == $t->id_tugas ? 'selected' : '' }}>
+        {{ $t->judul }}
+      </option>
+    @endforeach
+  </select>
+</div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Batal</button>

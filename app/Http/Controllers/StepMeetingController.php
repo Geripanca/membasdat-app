@@ -6,6 +6,7 @@ use App\Models\StepMeeting;
 use App\Models\Meeting;
 use App\Models\Materi;
 use App\Models\Quiz;
+use App\Models\Tugas; 
 use Illuminate\Http\Request;
 
 class StepMeetingController extends Controller
@@ -15,7 +16,8 @@ class StepMeetingController extends Controller
     {
         $materis = Materi::all();
         $quizzes = Quiz::all();
-        return view('admin.steps.create', compact('meeting', 'materis', 'quizzes'));
+        $tugas = Tugas::all();
+        return view('admin.steps.create', compact('meeting', 'materis', 'quizzes','tugas'));
     }
 
     // Simpan langkah
@@ -26,6 +28,8 @@ class StepMeetingController extends Controller
             'deskripsi' => 'required|string',
             'id_materis' => 'nullable|exists:materis,id',
             'id_quiz' => 'nullable|exists:quizzes,id',
+            'id_tugas' => 'nullable|exists:tugas,id_tugas',
+
         ]);
 
         $meeting->steps()->create([
@@ -33,6 +37,8 @@ class StepMeetingController extends Controller
         'deskripsi' => $request->deskripsi,
         'id_materis'=> $request->id_materis,
         'id_quiz'   => $request->id_quiz,
+        'id_tugas' => $request->id_tugas,
+        
         ]);
 
         return redirect()->route('datapertemuan.show', $meeting->id)->with('success', 'Langkah berhasil ditambahkan.');
@@ -43,7 +49,8 @@ class StepMeetingController extends Controller
     {
         $materis = Materi::all();
         $quizzes = Quiz::all();
-        return view('admin.steps.edit', compact('meeting', 'step', 'materis', 'quizzes'));
+        $tugas = Tugas::all();
+        return view('admin.steps.edit', compact('meeting', 'step', 'materis', 'quizzes','tugas'));
     }
 
     // Update langkah
@@ -54,6 +61,7 @@ class StepMeetingController extends Controller
             'deskripsi' => 'required|string',
             'id_materis' => 'nullable|exists:materis,id',
             'id_quiz' => 'nullable|exists:quizzes,id',
+            'id_tugas' => 'nullable|exists:tugas,id_tugas',
         ]);
 
     $step->update([
@@ -61,6 +69,7 @@ class StepMeetingController extends Controller
         'deskripsi' => $request->deskripsi,
         'id_materis'=> $request->id_materis,
         'id_quiz'   => $request->id_quiz,
+        'id_tugas' => $request->id_tugas,
     ]);
         return redirect()->route('datapertemuan.show', $meeting->id)->with('success', 'Langkah berhasil diperbarui.');
     }

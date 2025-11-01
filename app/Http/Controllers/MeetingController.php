@@ -7,6 +7,7 @@ use App\Models\Application;
 use App\Models\StepMeeting;
 use App\Models\Materi;
 use App\Models\Quiz;
+use App\Models\Tugas;
 use Illuminate\Http\Request;
 
 class MeetingController extends Controller
@@ -44,8 +45,9 @@ public function show(Meeting $datapertemuan)
     $datapertemuan->load('steps'); 
     $materis = Materi::all();
     $quizzes = Quiz::all();
+    $tugas = Tugas::all();
 
-    return view('admin.datapertemuan.show', compact('datapertemuan', 'app', 'title', 'materis', 'quizzes'));
+    return view('admin.datapertemuan.show', compact('datapertemuan', 'app', 'title', 'materis', 'quizzes', 'tugas'));
 }
 
     public function update(Request $request, $id)

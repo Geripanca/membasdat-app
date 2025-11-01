@@ -113,6 +113,38 @@
 
                             </div>
                         @endif
+                        
+                        {{-- ===================== --}}
+                        {{-- Bagian Tugas Step --}}
+                        {{-- ===================== --}}
+                        @if($step->tugas)
+                                <div class="card-body">
+                                    {{-- Tombol menuju halaman tugas --}}
+                                    <a href="{{ route('siswa.tugas.view', $step->tugas->id_tugas) }}"
+                                       class="btn btn-primary btn-sm mt-1">
+                                       📘 Buka Tugas
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
+                        {{-- Jika step memiliki quiz --}}
+{{-- Quiz Step --}}
+@if($step->quiz)
+    @php
+        $quizSlug = $step->quiz->slug ?? null;
+    @endphp
+
+    @if($quizSlug)
+        <div class="mt-3">
+            <a href="{{ route('users.quiz.show', $quizSlug) }}" 
+               class="d-block p-3 mt-2 rounded bg-light text-decoration-none text-primary fw-semibold shadow-sm"
+               style="transition: 0.2s;">
+               🧩 {{ $step->quiz->title }}
+            </a>
+        </div>
+    @endif
+@endif
+
 
                     </div>
                 </div>
