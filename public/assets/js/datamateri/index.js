@@ -13,12 +13,14 @@ $(".buttonEditMateri").on("click", function () {
     const video = $(this).data("video-materi");
     const url = $(this).data("url-materi");
 
+
     // isi form modal edit
     $(".codeMateri").val(code);
     $("#titleEdit").val(title);
     $("#categoryEdit").val(category).trigger("change");
     $("#videoEdit").val(video);
     $("#urlEdit").val(url);
+    
 
 
 

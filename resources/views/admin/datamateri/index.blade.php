@@ -225,7 +225,6 @@
             <label for="category" class="form-label required-label">Kategori</label>
             <select class="form-select @error('category') is-invalid @enderror" name="category" id="category" required>
               <option value="" disabled selected>Pilih Kategori</option>
-              <option value="file" @if(old('category')=='file') selected @endif>File</option>
               <option value="video" @if(old('category')=='video') selected @endif>Video</option>
               <option value="url" @if(old('category')=='url') selected @endif>URL</option>
             </select>
@@ -285,6 +284,7 @@
           Lihat / Download
         </a>
       </p>
+      <div id="filePreviewEdit" class="mt-2"></div>
     @endif
 </div>
 <div class="row">
