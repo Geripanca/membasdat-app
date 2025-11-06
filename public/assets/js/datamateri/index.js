@@ -11,12 +11,16 @@ $(".buttonEditMateri").on("click", function () {
     const title = $(this).data("title-materi");
     const category = $(this).data("category-materi");
     const video = $(this).data("video-materi");
+    const url = $(this).data("url-materi");
 
     // isi form modal edit
     $(".codeMateri").val(code);
     $("#titleEdit").val(title);
     $("#categoryEdit").val(category).trigger("change");
     $("#videoEdit").val(video);
+    $("#urlEdit").val(url);
+
+
 
     // buka modal edit
     $("#formEditModalAdminMateri").modal("show");

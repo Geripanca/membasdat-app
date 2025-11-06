@@ -134,7 +134,9 @@
                     data-code-materi="{{ encrypt($materi->id) }}"
                     data-title-materi="{{ $materi->title }}"
                     data-category-materi="{{ $materi->category }}"
-                    data-video-materi="{{ $materi->video }}">
+                    data-video-materi="{{ $materi->video }}"
+                    data-file-materi="{{ $materi->file ? asset('storage/' . $materi->file) : '' }}"
+                    data-url-materi="{{ $materi->url }}">
                     <span class="tf-icons bx bx-edit" style="font-size: 15px;"></span>
                     </button>
                     <button type="button" class="btn btn-icon btn-danger btn-sm buttonDeleteMateri"
@@ -302,10 +304,17 @@
     <div class="row">
   <div class="col mb-3">
     <label for="urlEdit" class="form-label">Link Website</label>
-    <input type="url" id="urlEdit" name="urlEdit" value="{{ old('urlEdit') }}" class="form-control @error('urlEdit') is-invalid @enderror" placeholder="https://contoh.com/artikel-belajar">
-    @error('urlEdit')
-      <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+<input 
+  type="url" 
+  id="urlEdit" 
+  name="urlEdit" 
+  value="{{ old('urlEdit', $materi->url ?? '') }}" 
+  class="form-control @error('urlEdit') is-invalid @enderror" 
+  placeholder="https://contoh.com/artikel-belajar">
+@error('urlEdit')
+  <div class="invalid-feedback">{{ $message }}</div>
+@enderror
+
   </div>
 </div>
 
@@ -318,6 +327,7 @@
             <option value="" disabled selected>Pilih Kategori</option>
             <option value="file">File</option>
             <option value="video">Video</option>
+            <option value="url">URL</option>
           </select>
         @error('categoryEdit')
         <div class="invalid-feedback">{{ $message }}</div>
