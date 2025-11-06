@@ -31,9 +31,10 @@ class MateriController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|max:255|string',
-            'category' => 'required|in:file,video',
+            'category' => 'required|in:file,video,url',
             'file' => 'nullable|mimes:pdf,doc,docx,odt,odf|max:5120',
-            'video' => 'nullable|url'
+            'video' => 'nullable|url',
+            'url' => 'nullable|url'
         ]);
 
         if ($request->file('file')) {
@@ -50,15 +51,17 @@ class MateriController extends Controller
     {
         $validatedData = $request->validate([
             'titleEdit' => 'required|max:255|string',
-            'categoryEdit' => 'required|in:file,video',
+            'categoryEdit' => 'required|in:file,video,url',
             'fileEdit' => 'nullable|mimes:pdf,doc,docx,odt,odf|max:5120',
-            'videoEdit' => 'nullable|url'
+            'videoEdit' => 'nullable|url',
+            'urlEdit' => 'nullable|url'
         ]);
 
         $dataUpdate = [
             'title' => $validatedData['titleEdit'],
             'category' => $validatedData['categoryEdit'],
             'video' => $validatedData['videoEdit'] ?? null,
+            'url' => $validatedData['urlEdit'] ?? null,
         ];
 
         if ($request->file('fileEdit')) {

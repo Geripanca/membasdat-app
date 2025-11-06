@@ -85,7 +85,7 @@
                   <th class="text-white">No</th>
                   <th class="text-white text-center">Judul Materi</th>
                   <th class="text-white text-center">Kategori</th>
-                  <th class="text-white text-center">File / Video</th>
+                  <th class="text-white text-center">File / Video/ URL</th>
                   <th class="text-white">Tanggal Pembuatan</th>
                   <th class="text-white">Tanggal Update</th>
                   <th class="text-white text-center">Aksi</th>
@@ -98,24 +98,32 @@
                   <td>{{ $materis->firstItem() + $index }}</td>
                   <td class="text-capitalize text-center">{{ $materi->title }}</td>
                   <td class="text-center">
-                  @if($materi->category == 'file')
-                    <span class="badge bg-label-success fw-bold">File</span>
-                  @else
-                    <span class="badge bg-label-info fw-bold">Video</span>
-                  @endif
+                    @if($materi->category == 'file')
+                      <span class="badge bg-label-success fw-bold">File</span>
+                    @elseif($materi->category == 'video')
+                      <span class="badge bg-label-info fw-bold">Video</span>
+                    @elseif($materi->category == 'url')
+                      <span class="badge bg-label-warning fw-bold">url</span>
+                    @else
+                      <span class="badge bg-label-secondary fw-bold">Lainnya</span>
+                    @endif
                   </td>
                   <td class="text-center">
-                  @if($materi->category == 'file' && $materi->file)
-                    <a href="{{ asset('storage/' . $materi->file) }}" target="_blank" class="btn btn-sm btn-primary">
-                    Download
-                    </a>
-                  @elseif($materi->category == 'video' && $materi->video)
-                      <a href="{{ $materi->video }}" target="_blank" class="btn btn-sm btn-success">
-                        Kunjungi
+                    @if($materi->category == 'file' && $materi->file)
+                      <a href="{{ asset('storage/' . $materi->file) }}" target="_blank" class="btn btn-sm btn-primary">
+                      Download File
                       </a>
-                  @else
-                    <span class="text-muted">Tidak ada data</span>
-                  @endif
+                    @elseif($materi->category == 'video' && $materi->video)
+                      <a href="{{ $materi->video }}" target="_blank" class="btn btn-sm btn-success">
+                      Lihat Video
+                      </a>
+                    @elseif($materi->category == 'url' && $materi->url)
+                      <a href="{{ $materi->url }}" target="_blank" class="btn btn-sm btn-warning">
+                      Buka Website
+                      </a>
+                    @else
+                      <span class="text-muted">Tidak ada sumber</span>
+                    @endif
                   </td>
                   <td>{{ $materi->created_at->locale('id')->isoFormat('D MMMM YYYY | H:mm') }}</td>
                   <td>{{ $materi->updated_at->locale('id')->isoFormat('D MMMM YYYY | H:mm') }}</td>
@@ -199,6 +207,17 @@
             <div class="form-text">Masukkan link embed YouTube</div>
           </div>
         </div>
+    <div class="row">
+      <div class="col mb-3">
+      <label for="url" class="form-label">Link Website</label>
+      <input type="url" id="url" name="url" value="{{ old('url') }}" class="form-control @error('url') is-invalid @enderror" placeholder="https://contoh.com/artikel-belajar">
+      @error('url')
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+      <div class="form-text">Masukkan link website sumber belajar</div>
+      </div>
+    </div>
+
           <div class="row">
             <div class="col">
             <label for="category" class="form-label required-label">Kategori</label>
@@ -206,6 +225,7 @@
               <option value="" disabled selected>Pilih Kategori</option>
               <option value="file" @if(old('category')=='file') selected @endif>File</option>
               <option value="video" @if(old('category')=='video') selected @endif>Video</option>
+              <option value="url" @if(old('category')=='url') selected @endif>URL</option>
             </select>
             @error('category')
             <div class="invalid-feedback">{{ $message }}</div>
@@ -279,6 +299,16 @@
       @enderror
       </div>
     </div>
+    <div class="row">
+  <div class="col mb-3">
+    <label for="urlEdit" class="form-label">Link Website</label>
+    <input type="url" id="urlEdit" name="urlEdit" value="{{ old('urlEdit') }}" class="form-control @error('urlEdit') is-invalid @enderror" placeholder="https://contoh.com/artikel-belajar">
+    @error('urlEdit')
+      <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+  </div>
+</div>
+
 
     <div class="row">
       <div class="col">
