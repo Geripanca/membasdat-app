@@ -118,10 +118,11 @@
                         {{-- Bagian Tugas Step --}}
                         {{-- ===================== --}}
                         @if($step->tugas)
-                                <div class="card-body">
+                                <div class="mt-3">
                                     {{-- Tombol menuju halaman tugas --}}
                                     <a href="{{ route('siswa.tugas.view', $step->tugas->id_tugas) }}"
-                                       class="btn btn-primary btn-sm mt-1">
+                                        class="d-block p-3 mt-2 rounded bg-light text-decoration-none text-primary fw-semibold shadow-sm"
+                                        style="transition: 0.2s;">
                                        📘 Buka Tugas
                                     </a>
                                 </div>
