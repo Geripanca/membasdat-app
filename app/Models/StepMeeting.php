@@ -16,12 +16,6 @@ class StepMeeting extends Model
     {
         return $this->belongsTo(Meeting::class, 'id_pertemuan');
     }
-
-    public function materi()
-    {
-        return $this->belongsTo(\App\Models\Materi::class, 'id_materis');
-    }
-
     public function quiz()
     {
         return $this->belongsTo(\App\Models\Quiz::class, 'id_quiz');
@@ -30,4 +24,9 @@ class StepMeeting extends Model
     {
         return $this->belongsTo(\App\Models\Tugas::class, 'id_tugas', 'id_tugas');
     }
+    public function materis()
+    {
+        return $this->belongsToMany(Materi::class, 'pivot_meeting', 'step_meeting_id', 'materi_id');
+    }
+
 }

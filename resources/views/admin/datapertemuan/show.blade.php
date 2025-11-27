@@ -14,6 +14,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+select.form-select,
+select.form-select option {
+    color: #000 !important;
+    background-color: #fff !important;
+}
+
+
+
 </style>
 @endsection
 
@@ -68,7 +77,14 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ Str::limit($step->judul, 40, '...') }}</td>
                 <td>{!! Str::limit(strip_tags($step->deskripsi), 60, '...') !!}</td>
-                <td>{{ $step->materi?->title ?? '-' }}</td>
+<td>
+    @forelse($step->materis as $m)
+        <span class="badge bg-primary">{{ $m->title }}</span>
+    @empty
+        -
+    @endforelse
+</td>
+
                 <td>{{ $step->quiz?->title ?? '-' }}</td>
                 <td class="text-center">
                   <button type="button" class="btn btn-sm btn-warning"
@@ -126,15 +142,23 @@
             <textarea id="deskripsi_step" name="deskripsi" class="form-control" rows="5"></textarea>
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">Materi (opsional)</label>
-            <select name="id_materis" class="form-select">
-              <option value="">-- Pilih Materi --</option>
-              @foreach($materis as $materi)
-              <option value="{{ $materi->id }}">{{ $materi->title }}</option>
-              @endforeach
+<div id="materi-wrapper">
+    <div class="materi-row mb-2" id="materi-row-original">
+        <div class="d-flex">
+            <select name="materi_id[]" class="form-select">
+                <option value="">-- Pilih Materi --</option>
+                @foreach($materis as $m)
+                    <option value="{{ $m->id }}">{{ $m->title }}</option>
+                @endforeach
             </select>
-          </div>
+            <button type="button" class="btn btn-danger btn-sm remove-row ms-2 d-none">X</button>
+        </div>
+    </div>
+</div>
+
+<button type="button" id="add-materi" class="btn btn-primary btn-sm mt-2">+ Tambah Materi</button>
+
+
 
           <div class="mb-3">
             <label class="form-label">Quiz (opsional)</label>
@@ -191,17 +215,47 @@
             <textarea id="deskripsi_edit_{{ $step->id }}" name="deskripsi" class="form-control" rows="5">{!! $step->deskripsi !!}</textarea>
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">Materi (opsional)</label>
-            <select name="id_materis" class="form-select">
-              <option value="">-- Pilih Materi --</option>
-              @foreach($materis as $materi)
-              <option value="{{ $materi->id }}" {{ $step->id_materis == $materi->id ? 'selected' : '' }}>
-                {{ $materi->title }}
-              </option>
-              @endforeach
-            </select>
-          </div>
+<div id="materi-wrapper-edit-{{ $step->id }}">
+
+    {{-- Row materi eksisting --}}
+    @foreach($step->materis as $materi)
+    <div class="materi-row mb-2 d-flex">
+        <select name="materi_ids[]" class="form-select">
+            @foreach($materis as $m)
+                <option value="{{ $m->id }}" 
+                    {{ $materi->id == $m->id ? 'selected' : '' }}>
+                    {{ $m->title }}
+                </option>
+            @endforeach
+        </select>
+        <button type="button" class="btn btn-danger btn-sm ms-2 remove-row">X</button>
+    </div>
+    @endforeach
+
+</div>
+
+<button type="button" 
+        class="btn btn-sm btn-primary mt-2 add-materi-edit" 
+        data-step="{{ $step->id }}">
+    + Tambah Materi
+</button>
+
+{{-- Hidden template --}}
+<template id="materi-template-edit">
+    <div class="materi-row mb-2 d-flex">
+        <select name="materi_ids[]" class="form-select">
+            <option value="">-- Pilih Materi --</option>
+            @foreach($materis as $m)
+                <option value="{{ $m->id }}">{{ $m->title }}</option>
+            @endforeach
+        </select>
+        <button type="button" class="btn btn-danger btn-sm ms-2 remove-row">X</button>
+    </div>
+</template>
+
+
+
+
 
           <div class="mb-3">
             <label class="form-label">Quiz (opsional)</label>
@@ -284,5 +338,42 @@ $(document).ready(function() {
         initTrumbowyg('#deskripsi_edit_{{ $step->id }}');
     @endforeach
 });
+
+document.getElementById('add-materi').addEventListener('click', function() {
+    let original = document.getElementById('materi-row-original');
+    let clone = original.cloneNode(true);
+
+    // tombol X harus muncul hanya untuk clone
+    clone.querySelector('.remove-row').classList.remove('d-none');
+
+    // reset selected value
+    clone.querySelector('select').value = "";
+
+    // tambahkan event delete
+    clone.querySelector('.remove-row').addEventListener('click', function() {
+        clone.remove();
+    });
+
+    // append ke wrapper
+    document.getElementById('materi-wrapper').appendChild(clone);
+});
+
+document.querySelectorAll('.add-materi-edit').forEach(button => {
+    button.addEventListener('click', function () {
+        let stepId = this.getAttribute('data-step');
+        let wrapper = document.getElementById('materi-wrapper-edit-' + stepId);
+
+        let template = document.getElementById('materi-template-edit').content.cloneNode(true);
+        wrapper.appendChild(template);
+    });
+});
+
+// hapus row materi
+document.addEventListener('click', function(e){
+    if(e.target.classList.contains('remove-row')){
+        e.target.closest('.materi-row').remove();
+    }
+});
+
 </script>
 @endsection

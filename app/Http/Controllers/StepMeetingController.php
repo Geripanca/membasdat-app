@@ -26,20 +26,23 @@ class StepMeetingController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'id_materis' => 'nullable|exists:materis,id',
+            'id_materis' => 'nullable|array',
+            'id_materis.*' => 'exists:materis,id',
             'id_quiz' => 'nullable|exists:quizzes,id',
             'id_tugas' => 'nullable|exists:tugas,id_tugas',
 
         ]);
-
-        $meeting->steps()->create([
-        'judul'     => $request->judul,
+    $step = $meeting->steps()->create([
+        'judul' => $request->judul,
         'deskripsi' => $request->deskripsi,
-        'id_materis'=> $request->id_materis,
-        'id_quiz'   => $request->id_quiz,
-        'id_tugas' => $request->id_tugas,
-        
-        ]);
+        'id_quiz' => $request->id_quiz,
+        'id_tugas'=> $request->id_tugas,
+    ]);
+
+    // Attach materi (pivot)
+if ($request->materi_id) {
+    $step->materis()->attach($request->materi_id);
+}
 
         return redirect()->route('datapertemuan.show', $meeting->id)->with('success', 'Langkah berhasil ditambahkan.');
     }
@@ -64,13 +67,16 @@ class StepMeetingController extends Controller
             'id_tugas' => 'nullable|exists:tugas,id_tugas',
         ]);
 
+    // Update step
     $step->update([
-        'judul'     => $request->judul,
+        'judul' => $request->judul,
         'deskripsi' => $request->deskripsi,
-        'id_materis'=> $request->id_materis,
-        'id_quiz'   => $request->id_quiz,
-        'id_tugas' => $request->id_tugas,
+        'id_quiz' => $request->id_quiz,
+        'id_tugas'=> $request->id_tugas,
     ]);
+
+    // Sync materi (update pivot)
+    $step->materis()->sync($request->materi_id ?? []);
         return redirect()->route('datapertemuan.show', $meeting->id)->with('success', 'Langkah berhasil diperbarui.');
     }
 
