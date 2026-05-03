@@ -72,48 +72,51 @@
         <div>{!! $step->deskripsi !!}</div>
 
                         {{-- Materi Step --}}
-                        @if($step->materi)
-                            <div class="scrolling-wrapper d-flex flex-row flex-nowrap">
+ @if($step->materis->count())
+    <div class="d-flex flex-row flex-wrap gap-2 mt-3">
 
-                                {{-- PDF --}}
-                                @if($step->materi->category === 'file' && $step->materi->file)
-                                    <div class="card m-2 shadow-sm border-0" style="min-width: 220px; max-width: 250px;">
-                                        <div class="card-body d-flex flex-column justify-content-between">
-                                            <div class="text-center mb-2">
-                                                <i class="bi bi-file-earmark-text text-primary" style="font-size: 3rem;"></i>
-                                            </div>
-                                            <h6 class="card-title text-truncate text-center" title="{{ $step->materi->title }}">
-                                                {{ $step->materi->title }}
-                                            </h6>
-                                            <p class="text-muted text-center small mb-3">📄 Bacaan</p>
-                                            <a href="{{ asset('storage/' . $step->materi->file) }}" target="_blank"
-                                               class="btn btn-outline-primary btn-sm w-100">Download</a>
-                                        </div>
-                                    </div>
+        @foreach($step->materis as $materi)
 
-                                {{-- YouTube Video --}}
-                                @elseif($step->materi->category === 'video' && $step->materi->video)
-                                    @php
-                                        preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $step->materi->video, $matches);
-                                        $videoId = $matches[1] ?? null;
-                                    @endphp
-                                    @if($videoId)
-                                        <div class="card m-2" style="min-width: 250px;">
-                                            <img src="https://img.youtube.com/vi/{{ $videoId }}/hqdefault.jpg"
-                                                 class="card-img-top"
-                                                 alt="Thumbnail {{ $step->materi->title }}">
-                                            <div class="card-body">
-                                                <h6 class="card-title">{{ $step->materi->title }}</h6>
-                                                <a href="https://www.youtube.com/watch?v={{ $videoId }}" target="_blank"
-                                                   class="btn btn-sm btn-danger">▶ Tonton</a>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endif
+            {{-- ========================== --}}
+            {{-- VIDEO YOUTUBE --}}
+            {{-- ========================== --}}
+            @if($materi->category === 'video' && $materi->video)
+                <a href="{{ $materi->video }}" 
+                   class="btn btn-danger"
+                   target="_blank">
+                    ▶ Tonton Video
+                </a>
+            @endif
 
-                            </div>
-                        @endif
-                        
+
+            {{-- ========================== --}}
+            {{-- FILE PDF / DOC --}}
+            {{-- ========================== --}}
+            @if($materi->category === 'file' && $materi->file)
+                <a href="{{ asset('storage/'.$materi->file) }}" 
+                   class="btn btn-primary"
+                   target="_blank">
+                    📄 Download File
+                </a>
+            @endif
+
+
+            {{-- ========================== --}}
+            {{-- ARTIKEL --}}
+            {{-- ========================== --}}
+@if($materi->category === 'url' && $materi->url)
+    <a href="{{ $materi->url }}"
+       class="btn btn-warning text-dark"
+       target="_blank">
+        📘 Buka Website
+    </a>
+@endif
+
+        @endforeach
+
+    </div>
+@endif
+                       
                         {{-- ===================== --}}
                         {{-- Bagian Tugas Step --}}
                         {{-- ===================== --}}

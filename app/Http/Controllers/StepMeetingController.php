@@ -26,8 +26,9 @@ class StepMeetingController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'id_materis' => 'nullable|array',
-            'id_materis.*' => 'exists:materis,id',
+            'materi_id' => 'nullable|array',
+            'materi_id.*' => 'nullable|exists:materis,id',
+
             'id_quiz' => 'nullable|exists:quizzes,id',
             'id_tugas' => 'nullable|exists:tugas,id_tugas',
 
@@ -40,9 +41,10 @@ class StepMeetingController extends Controller
     ]);
 
     // Attach materi (pivot)
-if ($request->materi_id) {
-    $step->materis()->attach($request->materi_id);
+if (!empty(array_filter($request->materi_id ?? []))) {
+    $step->materis()->attach(array_filter($request->materi_id));
 }
+
 
         return redirect()->route('datapertemuan.show', $meeting->id)->with('success', 'Langkah berhasil ditambahkan.');
     }
@@ -57,29 +59,43 @@ if ($request->materi_id) {
     }
 
     // Update langkah
-    public function update(Request $request, Meeting $meeting, StepMeeting $step)
-    {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'id_materis' => 'nullable|exists:materis,id',
-            'id_quiz' => 'nullable|exists:quizzes,id',
-            'id_tugas' => 'nullable|exists:tugas,id_tugas',
-        ]);
+public function update(Request $request, Meeting $meeting, StepMeeting $step)
+{
+    $request->validate([
+        'judul' => 'required|string|max:255',
+        'deskripsi' => 'required|string',
 
-    // Update step
+        // FIX: samakan dengan store (array)
+        'materi_id' => 'nullable|array',
+        'materi_id.*' => 'exists:materis,id',
+
+        'id_quiz' => 'nullable|exists:quizzes,id',
+        'id_tugas' => 'nullable|exists:tugas,id_tugas',
+    ]);
+
+    // Update data utama step
     $step->update([
         'judul' => $request->judul,
         'deskripsi' => $request->deskripsi,
         'id_quiz' => $request->id_quiz,
-        'id_tugas'=> $request->id_tugas,
+        'id_tugas' => $request->id_tugas,
     ]);
 
-    // Sync materi (update pivot)
-    $step->materis()->sync($request->materi_id ?? []);
-        return redirect()->route('datapertemuan.show', $meeting->id)->with('success', 'Langkah berhasil diperbarui.');
-    }
+    if ($request->has('materi_ids')) {
+    $filtered = array_filter($request->materi_ids);
 
+    if (!empty($filtered)) {
+        $step->materis()->sync($filtered);
+    } else {
+        $step->materis()->detach(); 
+    }
+}
+    
+    return redirect()
+        ->route('datapertemuan.show', $meeting->id)
+        ->with('success', 'Langkah berhasil diperbarui.');
+        
+}
     // Hapus langkah
     public function destroy(Meeting $meeting, StepMeeting $step)
     {

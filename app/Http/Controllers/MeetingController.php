@@ -86,7 +86,12 @@ public function showUser($id)
 {
     $app = Application::all(); 
     $title = 'Detail Pertemuan';
-    $meeting = Meeting::with('steps.materi', 'steps.quiz')->findOrFail($id);
+    $meeting = Meeting::with([
+    'steps.materis',   // many-to-many materi
+    'steps.quiz',      // quiz
+    'steps.tugas'      // tugas
+])->findOrFail($id);
+
 
     return view('users.pertemuan.show', compact('meeting','app','title'));
 }
