@@ -65,15 +65,15 @@ public function update(Request $request, Meeting $meeting, StepMeeting $step)
         'judul' => 'required|string|max:255',
         'deskripsi' => 'required|string',
 
-        // FIX: samakan dengan store (array)
-        'materi_id' => 'nullable|array',
-        'materi_id.*' => 'exists:materis,id',
+        // SAMAKAN DENGAN BLADE
+        'materi_ids' => 'nullable|array',
+        'materi_ids.*' => 'exists:materis,id',
 
         'id_quiz' => 'nullable|exists:quizzes,id',
         'id_tugas' => 'nullable|exists:tugas,id_tugas',
     ]);
 
-    // Update data utama step
+    // Update data utama
     $step->update([
         'judul' => $request->judul,
         'deskripsi' => $request->deskripsi,
@@ -81,20 +81,12 @@ public function update(Request $request, Meeting $meeting, StepMeeting $step)
         'id_tugas' => $request->id_tugas,
     ]);
 
-    if ($request->has('materi_ids')) {
-    $filtered = array_filter($request->materi_ids);
+    // 🔥 INI KUNCI UTAMA
+    $step->materis()->sync(array_filter($request->materi_ids ?? []));
 
-    if (!empty($filtered)) {
-        $step->materis()->sync($filtered);
-    } else {
-        $step->materis()->detach(); 
-    }
-}
-    
     return redirect()
         ->route('datapertemuan.show', $meeting->id)
         ->with('success', 'Langkah berhasil diperbarui.');
-        
 }
     // Hapus langkah
     public function destroy(Meeting $meeting, StepMeeting $step)
